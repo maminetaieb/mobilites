@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Mobility{% endblock %}
+
+{% block body %}
+    <h1>Create new Mobility</h1>
+
+    {{ include('mobility/_form.html.twig') }}
+
+    <a href="{{ path('app_mobility_index') }}">back to list</a>
+{% endblock %}

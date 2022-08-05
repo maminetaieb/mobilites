@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}YearDetail index{% endblock %}
+
+{% block body %}
+    <h1>YearDetail index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Moyennes</th>
+                <th>Eng</th>
+                <th>Fr</th>
+                <th>AcademicYear</th>
+                <th>Authentic</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for year_detail in year_details %}
+            <tr>
+                <td>{{ year_detail.id }}</td>
+                <td>{{ year_detail.moyennes ? year_detail.moyennes|join(', ') : '' }}</td>
+                <td>{{ year_detail.eng }}</td>
+                <td>{{ year_detail.fr }}</td>
+                <td>{{ year_detail.academicYear }}</td>
+                <td>{{ year_detail.authentic ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_year_detail_show', {'id': year_detail.id}) }}">show</a>
+                    <a href="{{ path('app_year_detail_edit', {'id': year_detail.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_year_detail_new') }}">Create new</a>
+{% endblock %}

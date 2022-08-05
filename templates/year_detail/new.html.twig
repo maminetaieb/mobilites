@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New YearDetail{% endblock %}
+
+{% block body %}
+    <h1>Create new YearDetail</h1>
+
+    {{ include('year_detail/_form.html.twig') }}
+
+    <a href="{{ path('app_year_detail_index') }}">back to list</a>
+{% endblock %}

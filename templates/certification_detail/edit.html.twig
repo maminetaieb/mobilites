@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit CertificationDetail{% endblock %}
+
+{% block body %}
+    <h1>Edit CertificationDetail</h1>
+
+    {{ include('certification_detail/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_certification_detail_index') }}">back to list</a>
+
+    {{ include('certification_detail/_delete_form.html.twig') }}
+{% endblock %}

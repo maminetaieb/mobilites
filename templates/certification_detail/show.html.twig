@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CertificationDetail{% endblock %}
+
+{% block body %}
+    <h1>CertificationDetail</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ certification_detail.id }}</td>
+            </tr>
+            <tr>
+                <th>ObtainDate</th>
+                <td>{{ certification_detail.obtainDate ? certification_detail.obtainDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Mark</th>
+                <td>{{ certification_detail.mark }}</td>
+            </tr>
+            <tr>
+                <th>Authentic</th>
+                <td>{{ certification_detail.authentic ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_certification_detail_index') }}">back to list</a>
+
+    <a href="{{ path('app_certification_detail_edit', {'id': certification_detail.id}) }}">edit</a>
+
+    {{ include('certification_detail/_delete_form.html.twig') }}
+{% endblock %}
