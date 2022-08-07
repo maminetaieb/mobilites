@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\YearDetail;
-use App\Form\YearDetail1Type;
+use App\Form\YearDetailType;
 use App\Repository\YearDetailRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +25,7 @@ class YearDetailController extends AbstractController
     public function new(Request $request, YearDetailRepository $yearDetailRepository): Response
     {
         $yearDetail = new YearDetail();
-        $form = $this->createForm(YearDetail1Type::class, $yearDetail);
+        $form = $this->createForm(YearDetailType::class, $yearDetail);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -51,7 +51,7 @@ class YearDetailController extends AbstractController
     #[Route('/{id}/edit', name: 'app_year_detail_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, YearDetail $yearDetail, YearDetailRepository $yearDetailRepository): Response
     {
-        $form = $this->createForm(YearDetail1Type::class, $yearDetail);
+        $form = $this->createForm(YearDetailType::class, $yearDetail);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

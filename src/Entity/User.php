@@ -33,6 +33,9 @@ class User
     #[ORM\OneToMany(mappedBy: 'student', targetEntity: YearDetail::class, orphanRemoval: true)]
     private Collection $yearDetails;
 
+    #[ORM\ManyToOne(inversedBy: 'managers')]
+    private ?Institution $institution = null;
+
     public function __construct()
     {
         $this->certificationDetails = new ArrayCollection();
@@ -167,6 +170,18 @@ class User
                 $yearDetail->setStudent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getInstitution(): ?Institution
+    {
+        return $this->institution;
+    }
+
+    public function setInstitution(?Institution $institution): self
+    {
+        $this->institution = $institution;
 
         return $this;
     }

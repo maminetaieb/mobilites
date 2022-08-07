@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Certification;
-use App\Form\Certification1Type;
+use App\Form\CertificationType;
 use App\Repository\CertificationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +25,7 @@ class CertificationController extends AbstractController
     public function new(Request $request, CertificationRepository $certificationRepository): Response
     {
         $certification = new Certification();
-        $form = $this->createForm(Certification1Type::class, $certification);
+        $form = $this->createForm(CertificationType::class, $certification);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -51,7 +51,7 @@ class CertificationController extends AbstractController
     #[Route('/{id}/edit', name: 'app_certification_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Certification $certification, CertificationRepository $certificationRepository): Response
     {
-        $form = $this->createForm(Certification1Type::class, $certification);
+        $form = $this->createForm(CertificationType::class, $certification);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

@@ -39,10 +39,14 @@ class Institution
     #[ORM\OneToMany(mappedBy: 'institution', targetEntity: Mobility::class, orphanRemoval: true)]
     private Collection $mobilities;
 
+    #[ORM\OneToMany(mappedBy: 'institution', targetEntity: User::class)]
+    private Collection $managers;
+
     public function __construct()
     {
         $this->grades = new ArrayCollection();
         $this->mobilities = new ArrayCollection();
+        $this->managers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -176,6 +180,36 @@ class Institution
             // set the owning side to null (unless already changed)
             if ($mobility->getInstitution() === $this) {
                 $mobility->setInstitution(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getManagers(): Collection
+    {
+        return $this->managers;
+    }
+
+    public function addManager(User $manager): self
+    {
+        if (!$this->managers->contains($manager)) {
+            $this->managers->add($manager);
+            $manager->setInstitution($this);
+        }
+
+        return $this;
+    }
+
+    public function removeManager(User $manager): self
+    {
+        if ($this->managers->removeElement($manager)) {
+            // set the owning side to null (unless already changed)
+            if ($manager->getInstitution() === $this) {
+                $manager->setInstitution(null);
             }
         }
 

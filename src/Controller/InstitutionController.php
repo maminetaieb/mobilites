@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Institution;
-use App\Form\Institution1Type;
+use App\Form\InstitutionType;
 use App\Repository\InstitutionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +25,7 @@ class InstitutionController extends AbstractController
     public function new(Request $request, InstitutionRepository $institutionRepository): Response
     {
         $institution = new Institution();
-        $form = $this->createForm(Institution1Type::class, $institution);
+        $form = $this->createForm(InstitutionType::class, $institution);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -51,7 +51,7 @@ class InstitutionController extends AbstractController
     #[Route('/{id}/edit', name: 'app_institution_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Institution $institution, InstitutionRepository $institutionRepository): Response
     {
-        $form = $this->createForm(Institution1Type::class, $institution);
+        $form = $this->createForm(InstitutionType::class, $institution);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

@@ -2,31 +2,27 @@
 
 namespace App\Form;
 
-use App\Entity\Mobility;
+use App\Entity\Application;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class Mobility1Type extends AbstractType
+class ApplicationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('description')
-            ->add('startDate')
-            ->add('endDate')
-            ->add('size')
-            ->add('institution')
-            ->add('grades')
-            ->add('certs')
+            ->add('applicationDate')
+            ->add('status')
+            ->add('applicant')
+            ->add('mobility')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Mobility::class,
+            'data_class' => Application::class,
         ]);
     }
 }

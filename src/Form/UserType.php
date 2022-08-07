@@ -2,28 +2,27 @@
 
 namespace App\Form;
 
-use App\Entity\CertificationDetail;
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CertificationDetail1Type extends AbstractType
+class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('obtainDate')
-            ->add('mark')
-            ->add('authentic')
-            ->add('certified')
-            ->add('certification')
+            ->add('email')
+            ->add('password')
+            ->add('name')
+            ->add('institution')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => CertificationDetail::class,
+            'data_class' => User::class,
         ]);
     }
 }

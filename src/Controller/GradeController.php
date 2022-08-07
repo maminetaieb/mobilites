@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Grade;
-use App\Form\Grade1Type;
+use App\Form\GradeType;
 use App\Repository\GradeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +25,7 @@ class GradeController extends AbstractController
     public function new(Request $request, GradeRepository $gradeRepository): Response
     {
         $grade = new Grade();
-        $form = $this->createForm(Grade1Type::class, $grade);
+        $form = $this->createForm(GradeType::class, $grade);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -51,7 +51,7 @@ class GradeController extends AbstractController
     #[Route('/{id}/edit', name: 'app_grade_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Grade $grade, GradeRepository $gradeRepository): Response
     {
-        $form = $this->createForm(Grade1Type::class, $grade);
+        $form = $this->createForm(GradeType::class, $grade);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

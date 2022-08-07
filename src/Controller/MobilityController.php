@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Mobility;
-use App\Form\Mobility1Type;
+use App\Form\MobilityType;
 use App\Repository\MobilityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +25,7 @@ class MobilityController extends AbstractController
     public function new(Request $request, MobilityRepository $mobilityRepository): Response
     {
         $mobility = new Mobility();
-        $form = $this->createForm(Mobility1Type::class, $mobility);
+        $form = $this->createForm(MobilityType::class, $mobility);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -51,7 +51,7 @@ class MobilityController extends AbstractController
     #[Route('/{id}/edit', name: 'app_mobility_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Mobility $mobility, MobilityRepository $mobilityRepository): Response
     {
-        $form = $this->createForm(Mobility1Type::class, $mobility);
+        $form = $this->createForm(MobilityType::class, $mobility);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

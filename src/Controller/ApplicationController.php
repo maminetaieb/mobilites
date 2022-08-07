@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Application;
-use App\Form\Application1Type;
+use App\Form\ApplicationType;
 use App\Repository\ApplicationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +25,7 @@ class ApplicationController extends AbstractController
     public function new(Request $request, ApplicationRepository $applicationRepository): Response
     {
         $application = new Application();
-        $form = $this->createForm(Application1Type::class, $application);
+        $form = $this->createForm(ApplicationType::class, $application);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -51,7 +51,7 @@ class ApplicationController extends AbstractController
     #[Route('/{id}/edit', name: 'app_application_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Application $application, ApplicationRepository $applicationRepository): Response
     {
-        $form = $this->createForm(Application1Type::class, $application);
+        $form = $this->createForm(ApplicationType::class, $application);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
