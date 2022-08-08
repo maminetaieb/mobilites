@@ -12,10 +12,6 @@ class ApplicationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('applicationDate')
-            ->add('status')
-            ->add('applicant')
-            ->add('mobility')
         ;
     }
 

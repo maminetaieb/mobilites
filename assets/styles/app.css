@@ -1,0 +1,14 @@
+body {
+    background-color: lightgray;
+}
+
+table.horizontal-table > td > img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+}
+
+table.vertical-table > td > img {
+    width: 250px;
+    height: 250px;
+}

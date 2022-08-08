@@ -1,30 +1,66 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Application{% endblock %}
+{% block title %}Application
+{% endblock %}
 
 {% block body %}
-    <h1>Application</h1>
+	<h1>Application</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ application.id }}</td>
-            </tr>
-            <tr>
-                <th>ApplicationDate</th>
-                <td>{{ application.applicationDate ? application.applicationDate|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ application.status ? 'Yes' : 'No' }}</td>
-            </tr>
-        </tbody>
-    </table>
+	<table class="table vertical-table">
+		<tbody>
+			{% if application.status is null and app.user in application.mobility.institution.managers %}
+				<tr>
+					<th>Action</th>
+					<td>
+						<a href="{{ path('app_application_edit', {'id': application.id, 'r': 1}) }}">Accept</a>
+					</td>
+					<td>
+						<a href="{{ path('app_application_edit', {'id': application.id, 'r': 0}) }}">Reject</a>
+					</td>
+				</tr>
+			{% endif %}
+			<tr>
+				<th>Status</th>
+				<td>{{ application.status ? 'Yes' : 'No' }}</td>
+			</tr>
+			<tr>
+				<th>Applicant</th>
+				<td>
+					<a href="{{ path('app_user_show', {'id': application.applicant.id}) }}">
+						<img src="{{ application.applicant.photoUrl }}">
+						{{ application.applicant.name }}
+					</a>
+				</td>
+			</tr>
+			<tr>
+				<th>Grade</th>
+				<td>
+					<a href="{{ path('app_grade_show', {'id': application.applicant.currentYear.grade.id}) }}">
+						{{ application.applicant.currentYear.grade.institution.name}}
+						({{ application.applicant.currentYear.grade.name}})
+					</a>
+				</td>
+			</tr>
+			<tr>
+				<th>Mobility</th>
+				<td>
+					<a href="{{ path('app_mobility_show', {'id': application.mobility.id}) }}">
+						{{ application.mobility.name }}
+						({{ application.mobility.institution.name }})
+					</a>
+				</td>
+			</tr>
+			<tr>
+				<th>ApplicationDate</th>
+				<td>{{ application.applicationDate ? application.applicationDate|date('Y-m-d') : '' }}</td>
+			</tr>
+		</tbody>
+	</table>
 
-    <a href="{{ path('app_application_index') }}">back to list</a>
+	<a href="{{ path('app_mobility_show', {'id': application.mobility.id}) }}">back to mobility</a>
 
-    <a href="{{ path('app_application_edit', {'id': application.id}) }}">edit</a>
+	{% if app.user.id == application.applicant.id %}
+		{{ include('application/_delete_form.html.twig') }}
+	{% endif %}
 
-    {{ include('application/_delete_form.html.twig') }}
 {% endblock %}

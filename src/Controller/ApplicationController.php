@@ -21,25 +21,6 @@ class ApplicationController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_application_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ApplicationRepository $applicationRepository): Response
-    {
-        $application = new Application();
-        $form = $this->createForm(ApplicationType::class, $application);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $applicationRepository->add($application, true);
-
-            return $this->redirectToRoute('app_application_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('application/new.html.twig', [
-            'application' => $application,
-            'form' => $form,
-        ]);
-    }
-
     #[Route('/{id}', name: 'app_application_show', methods: ['GET'])]
     public function show(Application $application): Response
     {
@@ -48,10 +29,14 @@ class ApplicationController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_application_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit/{r}', name: 'app_application_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Application $application, ApplicationRepository $applicationRepository): Response
     {
-        $form = $this->createForm(ApplicationType::class, $application);
+        $application->setStatus($request->query->get('r') != 0);
+        $applicationRepository->add($application, true);
+
+        return $this->redirectToRoute('app_application_show', ['id' => $application->getId()]);
+        /*$form = $this->createForm(ApplicationType::class, $application);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -63,13 +48,13 @@ class ApplicationController extends AbstractController
         return $this->renderForm('application/edit.html.twig', [
             'application' => $application,
             'form' => $form,
-        ]);
+        ]);*/
     }
 
     #[Route('/{id}', name: 'app_application_delete', methods: ['POST'])]
     public function delete(Request $request, Application $application, ApplicationRepository $applicationRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$application->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $application->getId(), $request->request->get('_token'))) {
             $applicationRepository->remove($application, true);
         }
 

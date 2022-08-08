@@ -185,4 +185,9 @@ class User
 
         return $this;
     }
+
+    public function getCurrentYear(): YearDetail
+    {
+        return $this->yearDetails[array_key_last($this->yearDetails)];
+    }
 }
