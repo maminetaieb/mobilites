@@ -3,37 +3,50 @@
 {% block title %}CertificationDetail index{% endblock %}
 
 {% block body %}
-    <h1>CertificationDetail index</h1>
+<h1>CertificationDetail index</h1>
 
-    <table class="table horizontal-table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>ObtainDate</th>
-                <th>Mark</th>
-                <th>Authentic</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+<table class="table horizontal-table">
+    <thead>
+        <tr>
+            <th>Certified</th>
+            <th>Certification</th>
+            <th>ObtainDate</th>
+            <th>Mark</th>
+            <th>Authentic</th>
+            <th>actions</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for certification_detail in certification_details %}
-            <tr>
-                <td>{{ certification_detail.id }}</td>
-                <td>{{ certification_detail.obtainDate ? certification_detail.obtainDate|date('Y-m-d') : '' }}</td>
-                <td>{{ certification_detail.mark }}</td>
-                <td>{{ certification_detail.authentic ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('app_certification_detail_show', {'id': certification_detail.id}) }}">show</a>
-                    <a href="{{ path('app_certification_detail_edit', {'id': certification_detail.id}) }}">edit</a>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                <a href="{{ path('app_user_show', {'id': certification_detail.certified.id}) }}"
+                    class="link-btnshow-link-">
+                    <img src="{{ certification_detail.certified.photoUrl }}">
+                    {{ certification_detail.certified.name }}
+                </a>
+            </td>
+            <td>
+                <a href="{{ path('app_certification_show', {'id': certification_detail.certification.id}) }}">
+                    {{ certification_detail.certification.name }}
+                </a>
+            </td>
+            <td>{{ certification_detail.obtainDate ? certification_detail.obtainDate|date('Y-m-d') : '' }}</td>
+            <td>{{ certification_detail.mark }}</td>
+            <td>{{ certification_detail.authentic ? 'Yes' : 'No' }}</td>
+            <td>
+                <a href="{{ path('app_certification_detail_show', {'id': certification_detail.id}) }}">show</a>
+                {% if certification_detail.certified.id == app.user.id %}
+                <a href="{{ path('app_certification_detail_edit', {'id': certification_detail.id}) }}">edit</a>
+                {% endif %}
+            </td>
+        </tr>
         {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
+        <tr>
+            <td colspan="5">no records found</td>
+        </tr>
         {% endfor %}
-        </tbody>
-    </table>
+    </tbody>
+</table>
 
-    <a href="{{ path('app_certification_detail_new') }}">Create new</a>
 {% endblock %}

@@ -3,32 +3,52 @@
 {% block title %}CertificationDetail{% endblock %}
 
 {% block body %}
-    <h1>CertificationDetail</h1>
+<h1>CertificationDetail</h1>
 
-    <table class="table vertical-table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ certification_detail.id }}</td>
-            </tr>
-            <tr>
-                <th>ObtainDate</th>
-                <td>{{ certification_detail.obtainDate ? certification_detail.obtainDate|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Mark</th>
-                <td>{{ certification_detail.mark }}</td>
-            </tr>
-            <tr>
-                <th>Authentic</th>
-                <td>{{ certification_detail.authentic ? 'Yes' : 'No' }}</td>
-            </tr>
-        </tbody>
-    </table>
+<table class="table vertical-table">
+    <tbody>
+        <tr>
+            <th>Certified</th>
+            <td>
+                <a href="{{ path('app_user_show', {'id': certification_detail.certified.id}) }}"
+                    class="link-btnshow-link-">
+                    <img src="{{ certification_detail.certified.photoUrl }}">
+                    {{ certification_detail.certified.name }}
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <th>Certification</th>
+            <td>
+                <a href="{{ path('app_certification_show', {'id': certification_detail.certification.id}) }}">
+                    {{ certification_detail.certification.name }}
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <th>ObtainDate</th>
+            <td>{{ certification_detail.obtainDate ? certification_detail.obtainDate|date('Y-m-d') : '' }}</td>
+        </tr>
+        <tr>
+            <th>Mark</th>
+            <td>{{ certification_detail.mark }}</td>
+        </tr>
+        <tr>
+            <th>Authentic</th>
+            <td>
+                <a href="{{ path('app_certification_detail_edit_toggle_authentic', {'id': certification_detail.id}) }}">
+                    {{ certification_detail.authentic ? 'Yes' : 'No' }}
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>
 
-    <a href="{{ path('app_certification_detail_index') }}">back to list</a>
+<a href="{{ path('app_certification_detail_index') }}">back to list</a>
 
-    <a href="{{ path('app_certification_detail_edit', {'id': certification_detail.id}) }}">edit</a>
+{% if certification_detail.certified.id == app.user.id %}
+<a href="{{ path('app_certification_detail_edit', {'id': certification_detail.id}) }}">edit</a>
+{{ include('certification_detail/_delete_form.html.twig') }}
+{% endif %}
 
-    {{ include('certification_detail/_delete_form.html.twig') }}
 {% endblock %}

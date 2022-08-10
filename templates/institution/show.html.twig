@@ -43,4 +43,9 @@
     <a href="{{ path('app_institution_edit', {'id': institution.id}) }}">edit</a>
 
     {{ include('institution/_delete_form.html.twig') }}
+
+   {% include 'grade/index.html.twig' with {'grades': institution.grades} %}
+    {% if app.user.institution.id == institution.id %}
+    <a href="{{ path('app_grade_new') }}">Add new grade</a>
+    {% endif %}
 {% endblock %}

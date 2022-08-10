@@ -13,8 +13,6 @@ class GradeType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('institution')
-            ->add('mobilities')
         ;
     }
 

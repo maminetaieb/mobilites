@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Mobility;
+use App\Entity\Application;
 use App\Form\MobilityType;
 use App\Repository\MobilityRepository;
+use App\Repository\ApplicationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,6 +50,28 @@ class MobilityController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}/application/new', name: 'app_application_new', methods: ['GET', 'POST'])]
+    public function apply(Mobility $mobility, Request $request, ApplicationRepository $applicationRepository): Response
+    {
+        $application = new Application();
+        $application->setApplicationDate(new \DateTime('now'));
+        $application->setApplicant($this->getUser());
+        $application->setMobility($mobility);
+        $form = $this->createForm(ApplicationType::class, $application);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $applicationRepository->add($application, true);
+
+            return $this->redirectToRoute('app_application_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('application/new.html.twig', [
+            'application' => $application,
+            'form' => $form,
+        ]);
+    }
+
     #[Route('/{id}/edit', name: 'app_mobility_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Mobility $mobility, MobilityRepository $mobilityRepository): Response
     {
@@ -74,27 +98,5 @@ class MobilityController extends AbstractController
         }
 
         return $this->redirectToRoute('app_mobility_index', [], Response::HTTP_SEE_OTHER);
-    }
-
-    #[Route('/{id}/application/new', name: 'app_application_new', methods: ['GET', 'POST'])]
-    public function apply(Mobility $mobility, Request $request, ApplicationRepository $applicationRepository): Response
-    {
-        $application = new Application();
-        $application->setApplicationDate(new \DateTime('now'));
-        $application->setApplicant($this->getUser());
-        $application->setMobility($mobility);
-        $form = $this->createForm(ApplicationType::class, $application);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $applicationRepository->add($application, true);
-
-            return $this->redirectToRoute('app_application_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('application/new.html.twig', [
-            'application' => $application,
-            'form' => $form,
-        ]);
     }
 }

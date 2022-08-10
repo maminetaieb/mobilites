@@ -12,10 +12,10 @@
 				<tr>
 					<th>Action</th>
 					<td>
-						<a href="{{ path('app_application_edit', {'id': application.id, 'r': 1}) }}">Accept</a>
+						<a href="{{ path('app_application_edit_status', {'id': application.id, 'r': 1}) }}">Accept</a>
 					</td>
 					<td>
-						<a href="{{ path('app_application_edit', {'id': application.id, 'r': 0}) }}">Reject</a>
+						<a href="{{ path('app_application_edit_status', {'id': application.id, 'r': 0}) }}">Reject</a>
 					</td>
 				</tr>
 			{% endif %}

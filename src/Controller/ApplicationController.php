@@ -29,7 +29,7 @@ class ApplicationController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit/{r}', name: 'app_application_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit/status/{r}', name: 'app_application_edit_status', methods: ['GET', 'POST'])]
     public function edit(Request $request, Application $application, ApplicationRepository $applicationRepository): Response
     {
         $application->setStatus($request->query->get('r') != 0);

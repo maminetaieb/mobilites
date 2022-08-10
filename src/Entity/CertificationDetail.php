@@ -44,6 +44,7 @@ class CertificationDetail
     public function setCertified(?User $certified): self
     {
         $this->certified = $certified;
+        $certified->addCertificationDetail($this);
 
         return $this;
     }
@@ -56,6 +57,7 @@ class CertificationDetail
     public function setCertification(?Certification $certification): self
     {
         $this->certification = $certification;
+        $certification->addCertificationDetail($this);
 
         return $this;
     }

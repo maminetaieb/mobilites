@@ -25,6 +25,7 @@ class GradeController extends AbstractController
     public function new(Request $request, GradeRepository $gradeRepository): Response
     {
         $grade = new Grade();
+        $grade->setInstitution($this->getUser()->getInstitution());
         $form = $this->createForm(GradeType::class, $grade);
         $form->handleRequest($request);
 
