@@ -64,6 +64,9 @@ class Mobility
     public function setInstitution(?Institution $institution): self
     {
         $this->institution = $institution;
+        if (!$institution->mobilities->contains($this)) {
+            $institution->addMobility($this);
+        }
 
         return $this;
     }
@@ -187,8 +190,8 @@ class Mobility
     public function addApplication(Application $application): self
     {
         if (!$this->applications->contains($application)) {
-            $this->applications->add($application);
             $application->setMobility($this);
+            $this->applications->add($application);
         }
 
         return $this;

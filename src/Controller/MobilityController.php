@@ -27,6 +27,7 @@ class MobilityController extends AbstractController
     public function new(Request $request, MobilityRepository $mobilityRepository): Response
     {
         $mobility = new Mobility();
+        $mobility->setInstitution($this->getUser()->getInstitution);
         $form = $this->createForm(MobilityType::class, $mobility);
         $form->handleRequest($request);
 

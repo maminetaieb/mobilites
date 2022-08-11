@@ -4,49 +4,57 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Application index</h1>
+<h1>Application index</h1>
 
-	<table class="table horizontal-table">
-		<thead>
-			<tr>
-				<th>Applicant</th>
-				<th>Grade</th>
-				<th>ApplicationDate</th>
-				<th>Status</th>
-				<th>actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for application in applications %}
-				<tr>
-					<td>
-						<a href="{{ path('app_user_show', {'id': application.applicant.id}) }}" class="link-btnshow-link-">
-							<img src="{{ application.applicant.photoUrl }}">
-							{{ application.applicant.name }}
-						</a>
-					</td>
-					<td>
-						<a href="{{ path('app_grade_show', {'id': application.applicant.currentYear.grade.id}) }}" class="link-btnshow-link-">
-							{{ application.applicant.currentYear.grade.institution.name}}
-							({{ application.applicant.currentYear.grade.name}})
-						</a>
-					</td>
-					<td>{{ application.applicationDate ? application.applicationDate|date('Y-m-d') : '' }}</td>
-					<td>{{ application.status ? 'Yes' : 'No' }}</td>
-					<td>
-						<a href="{{ path('app_application_show', {'id': application.id}) }}"
-						class="link-btnshow-link-btnshow-action-">
-							show
-						</a>
-					</td>
-				</tr>
-			{% else %}
-				<tr>
-					<td colspan="4">no records found</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+<table class="table horizontal-table">
+	<thead>
+		<tr>
+			<th>Applicant</th>
+			<th>Grade</th>
+			<th>ApplicationDate</th>
+			<th>Status</th>
+			<th>actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for application in applications %}
+		<tr>
+			<td>
+				<a href="{{ path('app_user_show', {'id': application.applicant.id}) }}" class="link-btnshow-link-">
+					<img src="{{ application.applicant.photoUrl }}">
+					{{ application.applicant.name }}
+				</a>
+			</td>
+			<td>
+				<a href="{{ path('app_grade_show', {'id': application.applicant.currentYear.grade.id}) }}"
+					class="link-btnshow-link-">
+					{{ application.applicant.currentYear.grade.institution.name}}
+					({{ application.applicant.currentYear.grade.name}})
+				</a>
+			</td>
+			<td>{{ application.applicationDate ? application.applicationDate|date('Y-m-d') : '' }}</td>
+			<td>{{ application.status ? 'Yes' : 'No' }}</td>
+			<td>
+				<a href="{{ path('app_application_show', {'id': application.id}) }}"
+					class="link-btnshow-link-btnshow-action-">
+					show
+				</a>
+				{% if app.user.institution == application.mobility.institution %}
+				<a href="{{ path('app_application_edit_status', {'id': application.id, 'r': 1}) }}">Accept</a>
+				<a href="{{ path('app_application_edit_status', {'id': application.id, 'r': 0}) }}">Reject</a>
+				{% endif %}
+			</td>
+		</tr>
+		{% else %}
+		<tr>
+			<td colspan="4">no records found</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
 
-	<a href="{{ path('app_application_new') }}">Create new</a>
+{% if condition %}
+<a href="{{ path('app_application_new', {'id': application.mobility.id}) }}">Apply</a>
+{% endif %}
+
 {% endblock %}

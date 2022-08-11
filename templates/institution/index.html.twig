@@ -3,43 +3,45 @@
 {% block title %}Institution index{% endblock %}
 
 {% block body %}
-    <h1>Institution index</h1>
+<h1>Institution index</h1>
 
-    <table class="table horizontal-table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>PhotoUrl</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Longitude</th>
-                <th>Latitude</th>
-                <th>Website</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+<table class="table horizontal-table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>PhotoUrl</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Location</th>
+            <th>Website</th>
+            <th>actions</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for institution in institutions %}
-            <tr>
-                <td>{{ institution.id }}</td>
-                <td>{{ institution.photoUrl }}</td>
-                <td>{{ institution.name }}</td>
-                <td>{{ institution.description }}</td>
-                <td>{{ institution.longitude }}</td>
-                <td>{{ institution.latitude }}</td>
-                <td>{{ institution.website }}</td>
-                <td>
-                    <a href="{{ path('app_institution_show', {'id': institution.id}) }}">show</a>
-                    <a href="{{ path('app_institution_edit', {'id': institution.id}) }}">edit</a>
-                </td>
-            </tr>
+        <tr>
+            <td>{{ institution.id }}</td>
+            <td>{{ institution.photoUrl }}</td>
+            <td>{{ institution.name }}</td>
+            <td>{{ institution.description }}</td>
+            <td>{{ institution.location }}</td>
+            <td>{{ institution.website }}</td>
+            <td>
+                <a href="{{ path('app_institution_show', {'id': institution.id}) }}">show</a>
+                {% if app.user.instituion == instituion %}
+                <a href="{{ path('app_institution_edit', {'id': institution.id}) }}">edit</a>
+                {% endif %}
+            </td>
+        </tr>
         {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
+        <tr>
+            <td colspan="8">no records found</td>
+        </tr>
         {% endfor %}
-        </tbody>
-    </table>
+    </tbody>
+</table>
 
-    <a href="{{ path('app_institution_new') }}">Create new</a>
+{% if true %}
+<a href="{{ path('app_institution_new') }}">Create new</a>
+{% endif %}
 {% endblock %}
