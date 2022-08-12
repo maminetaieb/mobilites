@@ -28,8 +28,8 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
     public function authenticate(Request $request): Passport
     {
-        $password = $request->request->get('password');
-        $username = $request->request->get('username');
+        $password = $request->request->get('password','');
+        $username = $request->request->get('username','');
   
 
         $request->getSession()->set(Security::LAST_USERNAME, $username);
@@ -50,7 +50,6 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
         // For example:
          return new RedirectResponse($this->urlGenerator->generate('app_application_index'));
-        throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 
     protected function getLoginUrl(Request $request): string
