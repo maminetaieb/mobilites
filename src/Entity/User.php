@@ -43,6 +43,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
+    #[ORM\Column(length: 255)]
+    private ?string $username = null;
+
     public function __construct()
     {
         $this->certificationDetails = new ArrayCollection();
@@ -97,7 +100,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return (string) $this->username;
     }
 
   /**
@@ -256,6 +259,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
    
     public function __toString() {
-        return $this->name;
+        return $this->username;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
     }
 }
