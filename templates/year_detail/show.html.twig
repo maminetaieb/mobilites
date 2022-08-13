@@ -3,40 +3,57 @@
 {% block title %}YearDetail{% endblock %}
 
 {% block body %}
-    <h1>YearDetail</h1>
+<h1>YearDetail</h1>
 
-    <table class="table vertical-table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ year_detail.id }}</td>
-            </tr>
-            <tr>
-                <th>Moyennes</th>
-                <td>{{ year_detail.moyennes ? year_detail.moyennes|join(', ') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Eng</th>
-                <td>{{ year_detail.eng }}</td>
-            </tr>
-            <tr>
-                <th>Fr</th>
-                <td>{{ year_detail.fr }}</td>
-            </tr>
-            <tr>
-                <th>AcademicYear</th>
-                <td>{{ year_detail.academicYear }}</td>
-            </tr>
-            <tr>
-                <th>Authentic</th>
-                <td>{{ year_detail.authentic ? 'Yes' : 'No' }}</td>
-            </tr>
-        </tbody>
-    </table>
+<table class="table vertical-table">
+    <tbody>
+        <tr>
+            <th>Student</th>
+            <td>
+                <a href="{{ path('app_user_show', {'id': year_detail.student.id}) }}" class="link-btnshow-link-">
+                    <img src="{{ year_detail.student.photoUrl }}">
+                    {{ year_detail.student.name }}
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <th>Grade</th>
+            <td>
+                <a href="{{ path('app_grade_show', {'id': year_detail.grade.id}) }}">
+                    {{ year_detail.grade.name }} (year_detail.grade.institution.name)
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <th>AcademicYear</th>
+            <td>{{ year_detail.academicYear }}</td>
+        </tr>
+        {% for i, moyenne in year_detail.moyennes %}
+        <tr>
+            <th>{% if i < 2 %} Sem {{ i + 1 }} {% else %} Controle Sem {{ i-1 }} {% endif %} </th>
+            <td>{{ moyenne }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <th>Eng</th>
+            <td>{{ year_detail.eng }}</td>
+        </tr>
+        <tr>
+            <th>Fr</th>
+            <td>{{ year_detail.fr }}</td>
+        </tr>
+        <tr>
+            <th>Authentic</th>
+            <td>{{ year_detail.authentic ? 'Yes' : 'No' }}</td>
+        </tr>
+    </tbody>
+</table>
 
-    <a href="{{ path('app_year_detail_index') }}">back to list</a>
+<a href="{{ path('app_user_show', {'id': year_detail.student.id}) }}">back to Student profile</a>
 
-    <a href="{{ path('app_year_detail_edit', {'id': year_detail.id}) }}">edit</a>
+{% if app.user == year_detail.student %}
+<a href="{{ path('app_year_detail_edit', {'id': year_detail.id}) }}">edit</a>
+{{ include('year_detail/_delete_form.html.twig') }}
+{% endif %}
 
-    {{ include('year_detail/_delete_form.html.twig') }}
 {% endblock %}

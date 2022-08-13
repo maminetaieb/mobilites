@@ -16,9 +16,6 @@ class YearDetailType extends AbstractType
             ->add('eng')
             ->add('fr')
             ->add('academicYear')
-            ->add('authentic')
-            ->add('student')
-            ->add('grade')
         ;
     }
 

@@ -3,41 +3,46 @@
 {% block title %}YearDetail index{% endblock %}
 
 {% block body %}
-    <h1>YearDetail index</h1>
+<h1>YearDetail index</h1>
 
-    <table class="table horizontal-table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Moyennes</th>
-                <th>Eng</th>
-                <th>Fr</th>
-                <th>AcademicYear</th>
-                <th>Authentic</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+<table class="table horizontal-table">
+    <thead>
+        <tr>
+            <th>Grade</th>
+            <th>AcademicYear</th>
+            <th>Authentic</th>
+            <th>Moyennes</th>
+            <th>Eng</th>
+            <th>Fr</th>
+            <th>actions</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for year_detail in year_details %}
-            <tr>
-                <td>{{ year_detail.id }}</td>
-                <td>{{ year_detail.moyennes ? year_detail.moyennes|join(', ') : '' }}</td>
-                <td>{{ year_detail.eng }}</td>
-                <td>{{ year_detail.fr }}</td>
-                <td>{{ year_detail.academicYear }}</td>
-                <td>{{ year_detail.authentic ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('app_year_detail_show', {'id': year_detail.id}) }}">show</a>
-                    <a href="{{ path('app_year_detail_edit', {'id': year_detail.id}) }}">edit</a>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                <a href="{{ path('app_grade_show', {'id': year_detail.grade.id}) }}">
+                    {{ year_detail.grade.name }} (year_detail.grade.institution.name)
+                </a>
+            </td>
+            <td>{{ year_detail.academicYear }}</td>
+            <td>{{ year_detail.authentic ? 'Yes' : 'No' }}</td>
+            <td>{{ year_detail.moyennes ? year_detail.moyennes|join(', ') : '' }}</td>
+            <td>{{ year_detail.eng }}</td>
+            <td>{{ year_detail.fr }}</td>
+            <td>
+                <a href="{{ path('app_year_detail_show', {'id': year_detail.id}) }}">show</a>
+                {% if app.user == year_detail.student %}
+                <a href="{{ path('app_year_detail_edit', {'id': year_detail.id}) }}">edit</a>
+                {% endif %}
+            </td>
+        </tr>
         {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
+        <tr>
+            <td colspan="7">no records found</td>
+        </tr>
         {% endfor %}
-        </tbody>
-    </table>
+    </tbody>
+</table>
 
-    <a href="{{ path('app_year_detail_new') }}">Create new</a>
 {% endblock %}
