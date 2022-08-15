@@ -6,9 +6,10 @@ security:
     providers:
         app_user_provider:
             entity:
-                class: App\Entity\User
-                property: email
+                class: App\Entity\Users
+                property: username
         users_in_memory: { memory: null }
+        # used to reload user from session & other features (e.g. switch_user)
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
