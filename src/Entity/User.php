@@ -108,6 +108,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+    public function setPlainPassword(?string $plainPassword): void
+    {
+        $this->plainPassword = $plainPassword;
+    }
       /**
      * The public representation of the user (e.g. a username, an email address, etc.)
      *
@@ -117,7 +125,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return (string) $this->username;
     }
-
+    public function getSalt(): ?string
+    {
+        return null;
+    }
 
     /**
      * @see UserInterface
