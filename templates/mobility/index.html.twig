@@ -41,10 +41,10 @@
             <td>{{ mobility.startDate ? mobility.startDate|date('Y-m-d') : '' }}</td>
             <td>{{ mobility.endDate ? mobility.endDate|date('Y-m-d') : '' }}</td>
             <td>
-                {% mobility.applications | filter(application => application.status == true) | length %}
+                {{ mobility.applications | filter(application => application.status == true) | length }}
                 / {{ mobility.size }}
                 <a href="{{ path('app_mobility_show', {'id': mobility.id}) }}">
-                    ({% mobility.applications | filter(application => application.status is null) | length %} pending)
+                    ({{ mobility.applications | filter(application => application.status is null) | length }} pending)
                 </a>
             </td>
             <td>

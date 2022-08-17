@@ -8,7 +8,6 @@
 <table class="table horizontal-table">
     <thead>
         <tr>
-            <th>Id</th>
             <th>PhotoUrl</th>
             <th>Name</th>
             <th>Description</th>
@@ -20,15 +19,20 @@
     <tbody>
         {% for institution in institutions %}
         <tr>
-            <td>{{ institution.id }}</td>
-            <td>{{ institution.photoUrl }}</td>
+            <td><img src="{{ institution.photoUrl }}"></td>
             <td>{{ institution.name }}</td>
             <td>{{ institution.description }}</td>
-            <td>{{ institution.location }}</td>
+            <td>
+                {% if institution.location is not null %}
+                {{ institution.location }}
+                {% else %}
+                Error retrieving location
+                {% endif %}
+            </td>
             <td>{{ institution.website }}</td>
             <td>
                 <a href="{{ path('app_institution_show', {'id': institution.id}) }}">show</a>
-                {% if app.user.instituion == instituion %}
+                {% if app.user.institution == institution %}
                 <a href="{{ path('app_institution_edit', {'id': institution.id}) }}">edit</a>
                 {% endif %}
             </td>
