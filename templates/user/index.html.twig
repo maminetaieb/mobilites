@@ -24,14 +24,18 @@
             <td>{{ user.name }}</td>
             <td>
                 <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
-                {% if institution is defined and app.user.institution is not null and institution.id == app.user.institution.id and app.user != user %}
+                {% if institution is defined and app.user.institution is not null and institution.id == app.user.institution.id %}
                 {% if user.institution is null %}
                 <a href="{{ path('app_institution_edit_managers_add', {'id': institution.id, 'mid': user.id}) }}">
                     Add Manager
                 </a>
                 {% else %}
                 <a href="{{ path('app_institution_edit_managers_remove', {'id': institution.id, 'mid': user.id}) }}">
+                    {% if app.user == user %}
+                    Retire
+                    {% else %}
                     Remove Manager
+                    {% endif %}
                 </a>
                 {% endif %}
                 {% endif %}
