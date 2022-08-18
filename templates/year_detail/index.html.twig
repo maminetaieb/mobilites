@@ -5,7 +5,7 @@
 {% block body %}
 <h1>YearDetail index</h1>
 
-<table class="table horizontal-table">
+<table class="table horizontal">
     <thead>
         <tr>
             <th>Grade</th>
@@ -22,7 +22,7 @@
         <tr>
             <td>
                 <a href="{{ path('app_grade_show', {'id': year_detail.grade.id}) }}">
-                    {{ year_detail.grade.name }} (year_detail.grade.institution.name)
+                    {{ year_detail.grade.name }} ({{ year_detail.grade.institution.name }})
                 </a>
             </td>
             <td>{{ year_detail.academicYear }}</td>

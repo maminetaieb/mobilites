@@ -116,20 +116,7 @@ class Institution
 
     public function getLocation(): ?string
     {
-        $geocode = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?latlng=' . $this->getLatitude() . ',' . $this->getLongitude() . '&sensor=false');
-
-        $output = json_decode($geocode);
-
-        for ($j = 0; $j < count($output->results[0]->address_components); $j++) {
-
-            $cn = array($output->results[0]->address_components[$j]->types[0]);
-
-            if (in_array("country", $cn)) {
-                $country = $output->results[0]->address_components[$j]->long_name;
-            }
-        }
-
-        return $country;
+        return "Static location";
     }
 
     public function getWebsite(): ?string
@@ -139,6 +126,9 @@ class Institution
 
     public function setWebsite(?string $website): self
     {
+        if (strpos($website, "://") === false) {
+            $website = "https://" . $website;
+        }
         $this->website = $website;
 
         return $this;

@@ -48,6 +48,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
+    #[ORM\Column(length: 666, nullable: true)]
+    private ?string $photoUrl = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -232,9 +235,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCurrentYear(): YearDetail
+    public function getCurrentYear(): ?YearDetail
     {
-        return $this->yearDetails[array_key_last($this->yearDetails)];
+        return $this->yearDetails[array_key_last($this->getYearDetails()->toArray())];
     }
 
     public function isVerified(): bool
@@ -245,6 +248,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getPhotoUrl(): ?string
+    {
+        return $this->photoUrl;
+    }
+
+    public function setPhotoUrl(?string $photoUrl): self
+    {
+        $this->photoUrl = $photoUrl;
 
         return $this;
     }

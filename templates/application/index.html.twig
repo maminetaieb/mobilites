@@ -6,17 +6,18 @@
 {% block body %}
 <h1>Application index</h1>
 
-<table class="table horizontal-table">
+<table class="table horizontal">
 	<thead>
 		<tr>
 			<th>Applicant</th>
-			<th>Grade</th>
+			<th>Current Grade</th>
 			<th>ApplicationDate</th>
 			<th>Status</th>
 			<th>actions</th>
 		</tr>
 	</thead>
 	<tbody>
+		{% set cachedApplication = null %}
 		{% for application in applications %}
 		<tr>
 			<td>
@@ -26,11 +27,15 @@
 				</a>
 			</td>
 			<td>
+				{% if application.applicant.currentYear is not null %}
 				<a href="{{ path('app_grade_show', {'id': application.applicant.currentYear.grade.id}) }}"
 					class="link-btnshow-link-">
 					{{ application.applicant.currentYear.grade.institution.name}}
 					({{ application.applicant.currentYear.grade.name}})
 				</a>
+				{% else %}
+				Not Specified
+				{% endif %}
 			</td>
 			<td>{{ application.applicationDate ? application.applicationDate|date('Y-m-d') : '' }}</td>
 			<td>{{ application.status ? 'Yes' : 'No' }}</td>
@@ -45,6 +50,9 @@
 				{% endif %}
 			</td>
 		</tr>
+		{% if application in app.user.applications %}
+		{% set cachedApplication = application %}
+		{% endif %}
 		{% else %}
 		<tr>
 			<td colspan="4">no records found</td>
@@ -53,8 +61,10 @@
 	</tbody>
 </table>
 
-{% if condition %}
-<a href="{{ path('app_application_new', {'id': application.mobility.id}) }}">Apply</a>
+{% if cachedApplication is null %}
+<a href="{{ path('app_application_new', {'id': mobility.id}) }}">Apply</a>
+{% elseif cachedApplication.status is null %}
+<a href="{{ path('app_application_new', {'id': mobility.id}) }}">Cancel Application</a>
 {% endif %}
 
 {% endblock %}

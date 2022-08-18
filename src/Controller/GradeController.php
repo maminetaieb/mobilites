@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Grade;
 use App\Entity\YearDetail;
 use App\Form\GradeType;
+use App\Form\YearDetailType;
 use App\Repository\GradeRepository;
 use App\Repository\YearDetailRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
