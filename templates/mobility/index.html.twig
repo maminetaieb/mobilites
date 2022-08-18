@@ -5,11 +5,11 @@
 {% block body %}
 <h1>Mobility index</h1>
 
-<table class="table horizontal-table">
+<table class="table horizontal">
     <thead>
         <tr>
             <th>Name</th>
-            {% if includedIn != "institution/show" %}
+            {% if includedIn is defined and includedIn is not null and includedIn != "institution/show" %}
             <th>institution</th>
             {% endif %}
             <th>Grades</th>
@@ -24,7 +24,7 @@
         {% for mobility in mobilities %}
         <tr>
             <td>{{ mobility.name }}</td>
-            {% if includedIn != "institution/show" %}
+            {% if includedIn is defined and includedIn is not null and includedIn != "institution/show" %}
             <td>
                 <a href="{{ path('app_institution_show', {'id': mobility.institution.id}) }}">
                     <img src="{{ mobility.institution.photoUrl }}">

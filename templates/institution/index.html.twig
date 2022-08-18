@@ -5,7 +5,7 @@
 {% block body %}
 <h1>Institution index</h1>
 
-<table class="table horizontal-table">
+<table class="table horizontal">
     <thead>
         <tr>
             <th>PhotoUrl</th>
@@ -29,7 +29,7 @@
                 Error retrieving location
                 {% endif %}
             </td>
-            <td>{{ institution.website }}</td>
+            <td><a href="{{ institution.website }}">{{ institution.website }}</a></td>
             <td>
                 <a href="{{ path('app_institution_show', {'id': institution.id}) }}">show</a>
                 {% if app.user.institution == institution %}
@@ -45,7 +45,19 @@
     </tbody>
 </table>
 
-{% if true %}
-<a href="{{ path('app_institution_new') }}">Create new</a>
+{% if app.user.institution is null %}
+<a href="{{ path('app_institution_new') }}">Add your institution</a>
+{% else %}{#
+<div>
+    {% if app.user.institution.managers[0].id == app.user.id %}
+    You are the owner of
+    <a href="{{ path('app_institution_show', app.user.institution.id)}}">{{ app.user.institution.name }}</a>.
+    You can add/remove managers <a
+        href="{{ path('app_institution_edit_managers', {'id': app.user.institution.id}) }}">here</a>.
+    {% else %}
+    You are a manager of <a href="{{ path('app_institution_show', app.user.institution.id)}}">{{
+        app.user.institution.name }}</a>.
+    {% endif %}
+</div>#}
 {% endif %}
 {% endblock %}

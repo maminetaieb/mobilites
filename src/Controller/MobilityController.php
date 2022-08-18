@@ -5,8 +5,10 @@ namespace App\Controller;
 use App\Entity\Mobility;
 use App\Entity\Application;
 use App\Form\MobilityType;
+use App\Form\ApplicationType;
 use App\Repository\MobilityRepository;
 use App\Repository\ApplicationRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,7 +29,7 @@ class MobilityController extends AbstractController
     public function new(Request $request, MobilityRepository $mobilityRepository): Response
     {
         $mobility = new Mobility();
-        $mobility->setInstitution($this->getUser()->getInstitution);
+        $mobility->setInstitution($this->getUser()->getInstitution());
         $form = $this->createForm(MobilityType::class, $mobility);
         $form->handleRequest($request);
 

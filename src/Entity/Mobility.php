@@ -64,7 +64,7 @@ class Mobility
     public function setInstitution(?Institution $institution): self
     {
         $this->institution = $institution;
-        if (!$institution->mobilities->contains($this)) {
+        if (!$institution->getMobilities()->contains($this)) {
             $institution->addMobility($this);
         }
 
