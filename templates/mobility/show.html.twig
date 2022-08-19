@@ -62,6 +62,6 @@
 {{ include('mobility/_delete_form.html.twig') }}
 {% endif %}
 
-{% include "application/index.html.twig" with {'applications': mobility.applications} %}
+{% include "application/index.html.twig" with {'applications': mobility.applications|filter(application => application.verified)} %}
 
 {% endblock %}

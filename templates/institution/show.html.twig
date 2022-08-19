@@ -38,17 +38,13 @@
 {% endif %}
 
 {% if app.user.institution == institution %}
+<a href="{{ path('app_grade_new') }}">Add new grade</a>
+{% endif %}
+{% include 'grade/index.html.twig' with {'grades': institution.grades} %}
+
+{% if app.user.institution == institution %}
 <a href="{{ path('app_mobility_new') }}">Add new mobiltiy</a>
 {% endif %}
 {% include "mobility/index.html.twig" with {'includedIn': 'institution/show', 'mobilities': institution.mobilities} %}
-
-{% if app.user.institution == institution %}
-<a href="{{ path('app_grade_new') }}">Add new grade</a>
-{% endif %}
-
-{% include 'grade/index.html.twig' with {'grades': institution.grades} %}
-{% if app.user.institution == institution %}
-{% include "user/index.html.twig" with {'includedIn': 'institution/show', 'users': institution.managers} %}
-{% endif %}
 
 {% endblock %}

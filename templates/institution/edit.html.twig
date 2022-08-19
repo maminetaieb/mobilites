@@ -3,15 +3,19 @@
 {% block title %}Edit Institution{% endblock %}
 
 {% block body %}
-    <h1>Edit Institution</h1>
+<h1>Edit Institution</h1>
 
-    {{ include('institution/_form.html.twig', {'button_label': 'Update'}) }}
+{{ include('institution/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_institution_index') }}">back to list</a>
+<a href="{{ path('app_institution_index') }}">back to list</a>
 
-    {{ include('institution/_delete_form.html.twig') }}
+{{ include('institution/_delete_form.html.twig') }}
 
-    {% if users is defined and users is not null and users | length > 0 %}
-    {% include "user/index.html.twig" with {'users': users} %}
-    {% endif %}
+{% if managers is defined and managers is not null and managers | length > 0 %}
+{% include "user/index.html.twig" with {'users': managers, 'title': "Manager list"} %}
+{% endif %}
+
+{% if outgoingApplications is defined and outgoingApplications is not null and outgoingApplications|length > 0 %}
+{% include "application/index.html.twig" with {'applications': outgoingApplications, 'title': "Outgoing Applications"} %}
+{% endif %}
 {% endblock %}

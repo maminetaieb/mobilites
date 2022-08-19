@@ -28,6 +28,12 @@ class Application
     #[ORM\Column(nullable: true)]
     private ?bool $status = null;
 
+    #[ORM\ManyToOne(inversedBy: 'outgoingApplications')]
+    private ?Grade $sourceGrade = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $verified = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -41,6 +47,7 @@ class Application
     public function setApplicant(?User $applicant): self
     {
         $this->applicant = $applicant;
+        $this->sourceGrade = $applicant->getCurrentYear()?->getGrade();
 
         return $this;
     }
@@ -77,6 +84,24 @@ class Application
     public function setStatus(?bool $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getSourceGrade(): ?Grade
+    {
+        return $this->sourceGrade;
+    }
+
+    public function isVerified(): ?bool
+    {
+        return $this->verified;
+    }
+
+    public function setVerified(?bool $verified): self
+    {
+        $this->verified = $verified;
+        $this->status = null;
 
         return $this;
     }

@@ -237,7 +237,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getCurrentYear(): ?YearDetail
     {
-        return $this->yearDetails[array_key_last($this->getYearDetails()->toArray())];
+        $currentAcademicYear = (date('m') < 10)? date('Y'): date('Y')+1;
+        foreach (array_reverse($this->getYearDetails()->toArray()) as $yearDetail) {
+            if ($yearDetail->getAcademicYear() == $currentAcademicYear) {
+                return $yearDetail;
+            }
+        }
+        return null;
     }
 
     public function isVerified(): bool

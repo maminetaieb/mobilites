@@ -6,6 +6,7 @@ use App\Entity\Institution;
 use App\Form\InstitutionType;
 use App\Repository\InstitutionRepository;
 use App\Repository\UserRepository;
+use App\Repository\ApplicationRepository;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -54,7 +55,7 @@ class InstitutionController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_institution_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Institution $institution, InstitutionRepository $institutionRepository, UserRepository $userRepository): Response
+    public function edit(Request $request, Institution $institution, InstitutionRepository $institutionRepository, UserRepository $userRepository, ApplicationRepository $applicationRepository): Response
     {
         $form = $this->createForm(InstitutionType::class, $institution);
         $form->handleRequest($request);
@@ -65,21 +66,28 @@ class InstitutionController extends AbstractController
             return $this->redirectToRoute('app_institution_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        $criteria = new Criteria();
-        $expressionBuilder = Criteria::expr();
-
-        $criteria
-            ->where($expressionBuilder->orX(
-                $expressionBuilder->isNull('institution'),
-                $expressionBuilder->eq('institution', $institution)
+        $managersCriteria = new Criteria();
+        $managersExpressionBuilder = Criteria::expr();
+        $managersCriteria
+            ->where($managersExpressionBuilder->orX(
+                $managersExpressionBuilder->isNull('institution'),
+                $managersExpressionBuilder->eq('institution', $institution)
             ))
             ->orderBy([
                 'institution' => 'DESC'
             ]);
 
+        $outgoingApplicationsCriteria = new Criteria();
+        $outgoingApplicationsExpressionBuilder = Criteria::expr();
+        $outgoingApplicationsCriteria
+        ->where($outgoingApplicationsExpressionBuilder->in('sourceGrade', $institution->getGrades()->toArray()));
+        $a =$applicationRepository->matching($outgoingApplicationsCriteria);
+        dump($a);
+
         return $this->renderForm('institution/edit.html.twig', [
             'institution' => $institution,
-            'users' => $userRepository->matching($criteria),
+            'managers' => $userRepository->matching($managersCriteria),
+            'outgoingApplications' => $applicationRepository->matching($outgoingApplicationsCriteria),
             'form' => $form,
         ]);
     }

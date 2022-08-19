@@ -9,6 +9,7 @@
     <thead>
         <tr>
             <th>Name</th>
+            <th>Outgoing Applications</th>
             <th>actions</th>
         </tr>
     </thead>
@@ -16,6 +17,15 @@
         {% for grade in grades %}
         <tr>
             <td>{{ grade.name }}</td>
+            <td>
+                <a href="{{ path('app_grade_edit', {'id': grade.id}) }}">
+                    edit
+                    ({{ grade.outgoingApplications|filter(outA => outA.verified is null)|length }}
+                    /
+                    {{ grade.outgoingApplications|length }}
+                    pending)
+                </a>
+            </td>
             <td>
                 <a href="{{ path('app_grade_show', {'id': grade.id}) }}">show</a>
                 <a href="{{ path('app_year_detail_new', {'id': grade.id}) }}">Add year details</a>

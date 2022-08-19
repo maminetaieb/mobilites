@@ -25,9 +25,13 @@ class Grade
     #[ORM\ManyToMany(targetEntity: Mobility::class, mappedBy: 'grades')]
     private Collection $mobilities;
 
+    #[ORM\OneToMany(mappedBy: 'sourceGrade', targetEntity: Application::class)]
+    private Collection $outgoingApplications;
+
     public function __construct()
     {
         $this->mobilities = new ArrayCollection();
+        $this->outgoingApplications = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -89,5 +93,35 @@ class Grade
     public function __toString()
     {
         return $this->name;
+    }
+
+    /**
+     * @return Collection<int, Application>
+     */
+    public function getOutgoingApplications(): Collection
+    {
+        return $this->outgoingApplications;
+    }
+
+    public function addOutgoingApplication(Application $outgoingApplication): self
+    {
+        if (!$this->outgoingApplications->contains($outgoingApplication)) {
+            $this->outgoingApplications->add($outgoingApplication);
+            $outgoingApplication->setSourceGrade($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOutgoingApplication(Application $outgoingApplication): self
+    {
+        if ($this->outgoingApplications->removeElement($outgoingApplication)) {
+            // set the owning side to null (unless already changed)
+            if ($outgoingApplication->getSourceGrade() === $this) {
+                $outgoingApplication->setSourceGrade(null);
+            }
+        }
+
+        return $this;
     }
 }

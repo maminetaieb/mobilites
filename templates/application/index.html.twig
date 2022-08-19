@@ -4,7 +4,13 @@
 {% endblock %}
 
 {% block body %}
-<h1>Application index</h1>
+<h1>
+	{% if title is defined %}
+	{{ title }}
+	{% else %}
+	Application index
+	{% endif %}
+</h1>
 
 <table class="table horizontal">
 	<thead>
@@ -12,12 +18,17 @@
 			<th>Applicant</th>
 			<th>Current Grade</th>
 			<th>ApplicationDate</th>
-			<th>Status</th>
+			{% if includedIn is defined and includedIn == 'grade/edit' %}
+			<th>Verified</th>
+			{% endif %}
+			<th>Accepted</th>
 			<th>actions</th>
 		</tr>
 	</thead>
 	<tbody>
+		{% if includedIn is not defined or includedIn is defined and includedIn != 'grade/edit' %}
 		{% set cachedApplication = null %}
+		{% endif %}
 		{% for application in applications %}
 		<tr>
 			<td>
@@ -38,20 +49,44 @@
 				{% endif %}
 			</td>
 			<td>{{ application.applicationDate ? application.applicationDate|date('Y-m-d') : '' }}</td>
-			<td>{{ application.status ? 'Yes' : 'No' }}</td>
+			{% if includedIn is defined and includedIn == 'grade/edit' %}
+			<td>{{ application.verified is null ? 'Not Reviewed': application.verified ? 'Yes' : 'No' }}</td>
+			{% endif %}
+			<td>
+				{% if application.verified %}
+				{{ application.status is null ? 'Not viewed': application.status ? 'Yes' : 'No' }}
+				{% else %}
+				Unavailable
+				{% endif %}
+			</td>
 			<td>
 				<a href="{{ path('app_application_show', {'id': application.id}) }}"
 					class="link-btnshow-link-btnshow-action-">
 					show
 				</a>
-				{% if app.user.institution == application.mobility.institution and application.status is null %}
+				{% if includedIn is not defined or includedIn is defined and includedIn != "grade/edit" %}
+				{% if app.user.institution == application.mobility.institution %}
+				{% if application.status is null or application.status == false %}
 				<a href="{{ path('app_application_edit_status', {'id': application.id, 'r': 1}) }}">Accept</a>
+				{% endif %}
+				{% if application.status is null or application.status == true %}
 				<a href="{{ path('app_application_edit_status', {'id': application.id, 'r': 0}) }}">Reject</a>
+				{% endif %}
+				{% endif %}
+				{% else %}
+				{% if application.verified is null or application.verified == false %}
+				<a href="{{ path('app_application_edit_verified', {'id': application.id, 'r': 1}) }}">Accept</a>
+				{% endif %}
+				{% if application.verified is null or application.verified == true %}
+				<a href="{{ path('app_application_edit_verified', {'id': application.id, 'r': 0}) }}">Reject</a>
+				{% endif %}
 				{% endif %}
 			</td>
 		</tr>
+		{% if includedIn is not defined or includedIn is defined and includedIn != 'grade/edit' %}
 		{% if application in app.user.applications %}
 		{% set cachedApplication = application %}
+		{% endif %}
 		{% endif %}
 		{% else %}
 		<tr>
@@ -61,10 +96,12 @@
 	</tbody>
 </table>
 
+{% if includedIn is not defined or includedIn is defined and includedIn != 'grade/edit' %}
 {% if cachedApplication is null %}
 <a href="{{ path('app_application_new', {'id': mobility.id}) }}">Apply</a>
 {% elseif cachedApplication.status is null %}
 <a href="{{ path('app_application_delete', {'id': cachedApplication.id}) }}">Cancel Application</a>
+{% endif %}
 {% endif %}
 
 {% endblock %}

@@ -10,4 +10,6 @@
     <a href="{{ path('app_grade_index') }}">back to list</a>
 
     {{ include('grade/_delete_form.html.twig') }}
+
+    {% include "application/index.html.twig" with {'includedIn': "grade/edit", 'title': "Outgoing Applications", 'applications': grade.outgoingApplications} %}
 {% endblock %}
