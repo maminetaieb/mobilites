@@ -59,14 +59,14 @@ class MobilityController extends AbstractController
         $application = new Application();
         $application->setApplicationDate(new \DateTime('now'));
         $application->setApplicant($this->getUser());
-        $application->setMobility($mobility);
+        $mobility->addApplication($application);
         $form = $this->createForm(ApplicationType::class, $application);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $applicationRepository->add($application, true);
 
-            return $this->redirectToRoute('app_application_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_mobility_show', ['id' => $mobility->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('application/new.html.twig', [

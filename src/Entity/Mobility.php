@@ -190,9 +190,9 @@ class Mobility
     public function addApplication(Application $application): self
     {
         if (!$this->applications->contains($application)) {
-            $application->setMobility($this);
             $this->applications->add($application);
         }
+        $application->setMobility($this);
 
         return $this;
     }

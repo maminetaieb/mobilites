@@ -44,7 +44,7 @@
 					class="link-btnshow-link-btnshow-action-">
 					show
 				</a>
-				{% if app.user.institution == application.mobility.institution %}
+				{% if app.user.institution == application.mobility.institution and application.status is null %}
 				<a href="{{ path('app_application_edit_status', {'id': application.id, 'r': 1}) }}">Accept</a>
 				<a href="{{ path('app_application_edit_status', {'id': application.id, 'r': 0}) }}">Reject</a>
 				{% endif %}
@@ -64,7 +64,7 @@
 {% if cachedApplication is null %}
 <a href="{{ path('app_application_new', {'id': mobility.id}) }}">Apply</a>
 {% elseif cachedApplication.status is null %}
-<a href="{{ path('app_application_new', {'id': mobility.id}) }}">Cancel Application</a>
+<a href="{{ path('app_application_delete', {'id': cachedApplication.id}) }}">Cancel Application</a>
 {% endif %}
 
 {% endblock %}

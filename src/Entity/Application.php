@@ -52,8 +52,7 @@ class Application
 
     public function setMobility(?Mobility $mobility): self
     {
-        $this->mobility?->removeApplication($this);
-        $mobility->addApplication($this);
+        $this->mobility = $mobility;
 
         return $this;
     }
