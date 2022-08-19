@@ -24,7 +24,9 @@
             <th>Grades</th>
             <td>
                 {% for grade in mobility.grades %}
-                {{ grade.name }} 
+                <a href="{{ path('app_grade_show', {'id': grade.id}) }}">
+                    {{ grade.name }}
+                </a>
                 {% endfor %}
             </td>
         </tr>

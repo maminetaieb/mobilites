@@ -20,7 +20,7 @@
             <th>Grade</th>
             <td>
                 <a href="{{ path('app_grade_show', {'id': year_detail.grade.id}) }}">
-                    {{ year_detail.grade.name }} (year_detail.grade.institution.name)
+                    {{ year_detail.grade.name }} ({{ year_detail.grade.institution.name }})
                 </a>
             </td>
         </tr>
@@ -44,7 +44,7 @@
         </tr>
         <tr>
             <th>Authentic</th>
-            <td>{{ year_detail.authentic ? 'Yes' : 'No' }}</td>
+            <td>{{ year_detail.authentic is null ? 'Unavailable' : year_detail.authentic ? 'Yes' : 'No' }}</td>
         </tr>
     </tbody>
 </table>

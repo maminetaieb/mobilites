@@ -20,10 +20,8 @@
             <td>
                 <a href="{{ path('app_grade_edit', {'id': grade.id}) }}">
                     edit
-                    ({{ grade.outgoingApplications|filter(outA => outA.verified is null)|length }}
-                    /
-                    {{ grade.outgoingApplications|length }}
-                    pending)
+                    ({{ grade.outgoingApplications|filter(outA => outA.verified is null)|length }} pending -
+                    {{ grade.outgoingApplications|filter(outA => outA.verified is not null)|length }} verified)
                 </a>
             </td>
             <td>

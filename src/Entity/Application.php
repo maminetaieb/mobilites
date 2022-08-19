@@ -101,6 +101,7 @@ class Application
     public function setVerified(?bool $verified): self
     {
         $this->verified = $verified;
+        $this->applicant->getCurrentYear()?->setAuthentic($verified);
         $this->status = null;
 
         return $this;

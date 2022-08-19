@@ -39,7 +39,7 @@
 			</td>
 			<td>
 				{% if application.applicant.currentYear is not null %}
-				<a href="{{ path('app_grade_show', {'id': application.applicant.currentYear.grade.id}) }}"
+				<a href="{{ path('app_year_detail_show', {'id': application.applicant.currentYear.id}) }}"
 					class="link-btnshow-link-">
 					{{ application.applicant.currentYear.grade.institution.name}}
 					({{ application.applicant.currentYear.grade.name}})

@@ -44,7 +44,7 @@
                 {{ mobility.applications | filter(application => application.status == true) | length }}
                 / {{ mobility.size }}
                 <a href="{{ path('app_mobility_show', {'id': mobility.id}) }}">
-                    ({{ mobility.applications | filter(application => application.status is null) | length }} pending)
+                    ({{ mobility.applications | filter(application => application.verified and application.status is null) | length }} pending)
                 </a>
             </td>
             <td>
