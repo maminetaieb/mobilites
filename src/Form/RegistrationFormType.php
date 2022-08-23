@@ -5,8 +5,11 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
@@ -20,6 +23,8 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('name')
             ->add('email')
+            ->add('photoUrl')
+
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
@@ -48,7 +53,22 @@ class RegistrationFormType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
-            ]);
+            ])
+            ->add('nationality', CountryType::class)
+            ->add('gender', ChoiceType::class, [
+                'choices'  => [
+                    'Male' => false,
+                    'Female' => true,
+                    'Other' => null
+                ],
+            ])
+            ->add('birthDate', DateType::class, [
+                'widget' => 'choice',
+                'years' => range(date('Y')-18, date('Y') -100),
+                'input'  => 'datetime_immutable',
+                'required' => true
+            ])
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
