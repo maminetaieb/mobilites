@@ -27,6 +27,8 @@
                 <a href="{{ path('app_grade_show', {'id': grade.id}) }}">
                     {{ grade.name }}
                 </a>
+                {% else %}
+                No Grades required
                 {% endfor %}
             </td>
         </tr>
@@ -34,7 +36,11 @@
             <th>Certifications</th>
             <td>
                 {% for cert in mobility.certs %}
-                {{ cert.name }} 
+                <a href="{{ path('app_certification_show', {'id': cert.id}) }}">
+                    {{ cert.name }}
+                </a>
+                {% else %}
+                No Certifications required
                 {% endfor %}
             </td>
         </tr>
@@ -52,7 +58,8 @@
         </tr>
         <tr>
             <th>Accepted Applications</th>
-            <td>{{ mobility.applications | filter(application => application.status == true) | length }} / {{ mobility.size }}</td>
+            <td>{{ mobility.applications | filter(application => application.status == true) | length }} / {{
+                mobility.size }}</td>
         </tr>
     </tbody>
 </table>
@@ -64,6 +71,7 @@
 {{ include('mobility/_delete_form.html.twig') }}
 {% endif %}
 
-{% include "application/index.html.twig" with {'applications': mobility.applications|filter(application => application.verified)} %}
+{% include "application/index.html.twig" with {'applications': mobility.applications|filter(application =>
+application.verified)} %}
 
 {% endblock %}

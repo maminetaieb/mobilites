@@ -35,7 +35,7 @@
 {{ include('grade/_delete_form.html.twig') }}
 {% endif %}
 
-{% include "mobility/index.html.twig" with {'mobilities': grade.mobilities} %}
+{% include "mobility/index.html.twig" with {'includedIn': "grade/show", 'mobilities': grade.mobilities} %}
 {# if app.user.institution is not null and app.user.institution == grade.institution and grade.yearDetails|length > 0 #}
 {% include "year_detail/index.html.twig" with {'includedIn': "grade/show", 'year_details': grade.yearDetails|sort((a,b) => a.academicYear <=> b.academicYear)} %}
 {# endif #}

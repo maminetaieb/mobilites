@@ -9,14 +9,13 @@
     <thead>
         <tr>
             <th>Name</th>
-            {% if includedIn is defined and includedIn is not null and includedIn != "institution/show" %}
-            <th>institution</th>
-            {% endif %}
-            <th>Grades</th>
             <th>Description</th>
+            {% if includedIn is not defined or includedIn != "institution/show" %}
+            <th>Host</th>
+            {% endif %}
             <th>StartDate</th>
             <th>EndDate</th>
-            <th>Size</th>
+            <th>Applications</th>
             <th>actions</th>
         </tr>
     </thead>
@@ -24,7 +23,8 @@
         {% for mobility in mobilities %}
         <tr>
             <td>{{ mobility.name }}</td>
-            {% if includedIn is defined and includedIn is not null and includedIn != "institution/show" %}
+            <td>{{ mobility.description }}</td>
+            {% if includedIn is not defined or includedIn != "institution/show" %}
             <td>
                 <a href="{{ path('app_institution_show', {'id': mobility.institution.id}) }}">
                     <img src="{{ mobility.institution.photoUrl }}">
@@ -32,19 +32,14 @@
                 </a>
             </td>
             {% endif %}
-            <td>
-                {% for grade in mobility.grades %}
-                {{ grade.name }}
-                {% endfor %}
-            </td>
-            <td>{{ mobility.description }}</td>
             <td>{{ mobility.startDate ? mobility.startDate|date('Y-m-d') : '' }}</td>
             <td>{{ mobility.endDate ? mobility.endDate|date('Y-m-d') : '' }}</td>
             <td>
                 {{ mobility.applications | filter(application => application.status == true) | length }}
                 / {{ mobility.size }}
-                <a href="{{ path('app_mobility_show', {'id': mobility.id}) }}">
-                    ({{ mobility.applications | filter(application => application.verified and application.status is null) | length }} pending)
+                <a href="{{ path('app_mobility_show', {'id': mobility.id, '_fragment': "applications"}) }}">
+                    ({{ mobility.applications | filter(application => application.verified and application.status is
+                    null) | length }} pending)
                 </a>
             </td>
             <td>
