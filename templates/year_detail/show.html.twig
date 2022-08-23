@@ -45,6 +45,20 @@
         <tr>
             <th>Authentic</th>
             <td>{{ year_detail.authentic is null ? 'Unavailable' : year_detail.authentic ? 'Yes' : 'No' }}</td>
+            {% if app.user in year_detail.grade.institution.managers %}
+            <td>
+                {% if year_detail.authentic is null or year_detail.authentic == false %}
+                <a href="{{ path('app_year_detail_edit_authentic', {'id': year_detail.id, 'r': 1}) }}">
+                    Yes
+                </a>
+                {% endif %}
+                {% if year_detail.authentic is null or year_detail.authentic == true %}
+                <a href="{{ path('app_year_detail_edit_authentic', {'id': year_detail.id, 'r': 0}) }}">
+                    No
+                </a>
+                {% endif %}
+            </td>
+            {% endif %}
         </tr>
     </tbody>
 </table>

@@ -18,11 +18,15 @@
         <tr>
             <td>{{ grade.name }}</td>
             <td>
+                {% if app.user.institution is not null and app.user.institution == grade.institution %}
                 <a href="{{ path('app_grade_edit', {'id': grade.id}) }}">
                     edit
                     ({{ grade.outgoingApplications|filter(outA => outA.verified is null)|length }} pending -
                     {{ grade.outgoingApplications|filter(outA => outA.verified is not null)|length }} verified)
                 </a>
+                {% else %}
+                {{ grade.outgoingApplications|filter(coutA => outA.verified is not null and outA.verified == true)|length }} accepted
+                {% endif %}
             </td>
             <td>
                 <a href="{{ path('app_grade_show', {'id': grade.id}) }}">show</a>

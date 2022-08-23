@@ -47,6 +47,15 @@ class YearDetailController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}/edit-authentic/{r}', name: 'app_year_detail_edit_authentic', methods: ['GET', 'POST'])]
+    public function editAuthentic(Request $request, YearDetail $yearDetail, YearDetailRepository $yearDetailRepository): Response
+    {
+        $yearDetail->setAuthentic($request->get('r') != 0);
+        $yearDetailRepository->add($yearDetail, true);
+
+        return $this->redirectToRoute('app_year_detail_show', ['id' => $yearDetail->getId()]);
+    }
+
     #[Route('/{id}', name: 'app_year_detail_delete', methods: ['POST'])]
     public function delete(Request $request, YearDetail $yearDetail, YearDetailRepository $yearDetailRepository): Response
     {

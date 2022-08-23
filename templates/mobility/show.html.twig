@@ -51,7 +51,7 @@
             <td>{{ mobility.endDate ? mobility.endDate|date('Y-m-d') : '' }}</td>
         </tr>
         <tr>
-            <th>Size</th>
+            <th>Accepted Applications</th>
             <td>{{ mobility.applications | filter(application => application.status == true) | length }} / {{ mobility.size }}</td>
         </tr>
     </tbody>

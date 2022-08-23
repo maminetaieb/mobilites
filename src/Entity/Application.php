@@ -47,7 +47,7 @@ class Application
     public function setApplicant(?User $applicant): self
     {
         $this->applicant = $applicant;
-        $this->sourceGrade = $applicant->getCurrentYear()?->getGrade();
+        $this->sourceGrade = $applicant->getCurrentYear()?->getGrade()->addOutgoingApplication($this);
 
         return $this;
     }

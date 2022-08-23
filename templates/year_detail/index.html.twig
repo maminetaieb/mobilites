@@ -8,7 +8,12 @@
 <table class="table horizontal">
     <thead>
         <tr>
+            {% if includedIn is not defined or includedIn != 'user/show' %}
+            <th>Student</th>
+            {% endif %}
+            {% if includedIn is not defined or includedIn != 'grade/show' %}
             <th>Grade</th>
+            {% endif %}
             <th>AcademicYear</th>
             <th>Authentic</th>
             <th>Moyennes</th>
@@ -20,11 +25,21 @@
     <tbody>
         {% for year_detail in year_details %}
         <tr>
+            {% if includedIn is not defined or includedIn != 'user/show' %}
+            <td>
+                <a href="{{ path('app_user_show', {'id': year_detail.student.id}) }}" class="link-btnshow-link-">
+                    <img src="{{ year_detail.student.photoUrl }}">
+                    {{ year_detail.student.name }}
+                </a>
+            </td>
+            {% endif %}
+            {% if includedIn is not defined or includedIn != 'grade/show' %}
             <td>
                 <a href="{{ path('app_grade_show', {'id': year_detail.grade.id}) }}">
                     {{ year_detail.grade.name }} ({{ year_detail.grade.institution.name }})
                 </a>
             </td>
+            {% endif %}
             <td>{{ year_detail.academicYear }}</td>
             <td>{{ year_detail.authentic ? 'Yes' : 'No' }}</td>
             <td>{{ year_detail.moyennes ? year_detail.moyennes|join(', ') : '' }}</td>

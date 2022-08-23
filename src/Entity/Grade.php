@@ -25,6 +25,9 @@ class Grade
     #[ORM\ManyToMany(targetEntity: Mobility::class, mappedBy: 'grades')]
     private Collection $mobilities;
 
+    #[ORM\OneToMany(mappedBy: 'grade', targetEntity: YearDetail::class)]
+    private Collection $yearDetails;
+
     #[ORM\OneToMany(mappedBy: 'sourceGrade', targetEntity: Application::class)]
     private Collection $outgoingApplications;
 
@@ -107,7 +110,6 @@ class Grade
     {
         if (!$this->outgoingApplications->contains($outgoingApplication)) {
             $this->outgoingApplications->add($outgoingApplication);
-            $outgoingApplication->setSourceGrade($this);
         }
 
         return $this;
@@ -118,7 +120,36 @@ class Grade
         if ($this->outgoingApplications->removeElement($outgoingApplication)) {
             // set the owning side to null (unless already changed)
             if ($outgoingApplication->getSourceGrade() === $this) {
-                $outgoingApplication->setSourceGrade(null);
+                // $outgoingApplication->setSourceGrade(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, YearDetail>
+     */
+    public function getYearDetails(): Collection
+    {
+        return $this->yearDetails;
+    }
+
+    public function addYearDetail(YearDetail $yearDetail): self
+    {
+        if (!$this->yearDetails->contains($yearDetail)) {
+            $this->yearDetails->add($yearDetail);
+        }
+
+        return $this;
+    }
+
+    public function removeOYearDetail(YearDetail $yearDetail): self
+    {
+        if ($this->yearDetails->removeElement($yearDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($yearDetail->getGrade() === $this) {
+                // $yearDetail->setGrade(null);
             }
         }
 
