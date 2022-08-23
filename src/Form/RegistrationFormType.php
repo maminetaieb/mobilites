@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -24,7 +24,6 @@ class RegistrationFormType extends AbstractType
             ->add('name')
             ->add('email')
             ->add('photoUrl')
-
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
@@ -54,19 +53,22 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('nationality', CountryType::class)
-            ->add('gender', ChoiceType::class, [
-                'choices'  => [
-                    'Male' => false,
-                    'Female' => true,
-                    'Other' => null
+            ->add('birthDate', BirthdayType::class, [
+                'years' => range(date('Y') - 50, date('Y') - 17),
+                'placeholder' => [
+                    'year' => 'Year', 'month' => 'Month', 'day' => 'Day',
                 ],
             ])
-            ->add('birthDate', DateType::class, [
-                'widget' => 'choice',
-                'years' => range(date('Y')-18, date('Y') -100),
-                'input'  => 'datetime_immutable',
-                'required' => true
+            ->add('gender', ChoiceType::class, [
+                'expanded' => true,
+                'choices' => [
+                    'Male' => true,
+                    'Female' => false,
+                    'None' => null,
+                ],
+            ])
+            ->add('nationality', CountryType::class, [
+                'placeholder' => "Select your Nationality"
             ])
             ;
     }

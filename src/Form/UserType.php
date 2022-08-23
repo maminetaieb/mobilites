@@ -15,14 +15,14 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('photoUrl')
             ->add('name')
             ->add('birthDate', BirthdayType::class, [
-                'years' => range(1990, date('Y')-17),
+                'years' => range(date('Y') - 50, date('Y') - 17),
                 'placeholder' => [
                     'year' => 'Year', 'month' => 'Month', 'day' => 'Day',
                 ],
             ])
-            ->add('nationality', CountryType::class)
             ->add('gender', ChoiceType::class, [
                 'expanded' => true,
                 'choices' => [
@@ -30,6 +30,9 @@ class UserType extends AbstractType
                     'Female' => false,
                     'None' => null,
                 ],
+            ])
+            ->add('nationality', CountryType::class, [
+                'placeholder' => "Select your Nationality"
             ])
             ;
     }
