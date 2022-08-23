@@ -17,7 +17,6 @@ class MobilityType extends AbstractType
             ->add('startDate')
             ->add('endDate')
             ->add('size')
-            ->add('institution')
             ->add('grades')
             ->add('certs')
         ;

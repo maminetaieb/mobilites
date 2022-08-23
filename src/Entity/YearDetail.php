@@ -78,6 +78,20 @@ class YearDetail
         return $this;
     }
 
+    public function addMoyenne(float $moyenne): self
+    {
+        array_push($this->moyennes, $moyenne);
+
+        return $this;
+    }
+
+    public function removeMoyenne(): self
+    {
+        array_pop($this->moyennes);
+
+        return $this;
+    }
+
     public function getEng(): ?string
     {
         return $this->eng;

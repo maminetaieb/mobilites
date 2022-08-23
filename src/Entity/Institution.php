@@ -114,6 +114,11 @@ class Institution
         return $this;
     }
 
+    public function getLocation(): ?string
+    {
+        return "Static location";
+    }
+
     public function getWebsite(): ?string
     {
         return $this->website;
@@ -121,6 +126,9 @@ class Institution
 
     public function setWebsite(?string $website): self
     {
+        if (strpos($website, "://") === false) {
+            $website = "https://" . $website;
+        }
         $this->website = $website;
 
         return $this;

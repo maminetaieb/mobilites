@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Application;
-use App\Form\ApplicationType;
 use App\Repository\ApplicationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,25 +20,6 @@ class ApplicationController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_application_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ApplicationRepository $applicationRepository): Response
-    {
-        $application = new Application();
-        $form = $this->createForm(ApplicationType::class, $application);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $applicationRepository->add($application, true);
-
-            return $this->redirectToRoute('app_application_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('application/new.html.twig', [
-            'application' => $application,
-            'form' => $form,
-        ]);
-    }
-
     #[Route('/{id}', name: 'app_application_show', methods: ['GET'])]
     public function show(Application $application): Response
     {
@@ -48,31 +28,31 @@ class ApplicationController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_application_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Application $application, ApplicationRepository $applicationRepository): Response
+    #[Route('/{id}/edit-status/{r}', name: 'app_application_edit_status', methods: ['GET', 'POST'])]
+    public function editStatus(Request $request, Application $application, ApplicationRepository $applicationRepository): Response
     {
-        $form = $this->createForm(ApplicationType::class, $application);
-        $form->handleRequest($request);
+        $application->setStatus($request->get('r') != 0);
+        $applicationRepository->add($application, true);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $applicationRepository->add($application, true);
+        return $this->redirectToRoute('app_mobility_show', ['id' => $application->getMobility()->getId()]);
+    }
 
-            return $this->redirectToRoute('app_application_index', [], Response::HTTP_SEE_OTHER);
-        }
+    #[Route('/{id}/edit-verified/{r}', name: 'app_application_edit_verified', methods: ['GET', 'POST'])]
+    public function editVerified(Request $request, Application $application, ApplicationRepository $applicationRepository): Response
+    {
+        $application->setVerified($request->get('r') != 0);
+        $applicationRepository->add($application, true);
 
-        return $this->renderForm('application/edit.html.twig', [
-            'application' => $application,
-            'form' => $form,
-        ]);
+        return $this->redirectToRoute('app_grade_edit', ['id' => $application->getSourceGrade()->getId()]);
     }
 
     #[Route('/{id}', name: 'app_application_delete', methods: ['POST'])]
     public function delete(Request $request, Application $application, ApplicationRepository $applicationRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$application->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $application->getId(), $request->request->get('_token'))) {
             $applicationRepository->remove($application, true);
         }
 
-        return $this->redirectToRoute('app_application_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_mobility_show', ['id' => $application->getMobility()->getId()], Response::HTTP_SEE_OTHER);
     }
 }

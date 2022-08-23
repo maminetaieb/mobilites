@@ -3,8 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Mobility;
+use App\Entity\Application;
 use App\Form\MobilityType;
+use App\Form\ApplicationType;
 use App\Repository\MobilityRepository;
+use App\Repository\ApplicationRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,6 +29,7 @@ class MobilityController extends AbstractController
     public function new(Request $request, MobilityRepository $mobilityRepository): Response
     {
         $mobility = new Mobility();
+        $mobility->setInstitution($this->getUser()->getInstitution());
         $form = $this->createForm(MobilityType::class, $mobility);
         $form->handleRequest($request);
 
@@ -45,6 +50,28 @@ class MobilityController extends AbstractController
     {
         return $this->render('mobility/show.html.twig', [
             'mobility' => $mobility,
+        ]);
+    }
+
+    #[Route('/{id}/application/new', name: 'app_application_new', methods: ['GET', 'POST'])]
+    public function apply(Mobility $mobility, Request $request, ApplicationRepository $applicationRepository): Response
+    {
+        $application = new Application();
+        $application->setApplicationDate(new \DateTime('now'));
+        $application->setApplicant($this->getUser());
+        $mobility->addApplication($application);
+        $form = $this->createForm(ApplicationType::class, $application);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $applicationRepository->add($application, true);
+
+            return $this->redirectToRoute('app_mobility_show', ['id' => $mobility->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('application/new.html.twig', [
+            'application' => $application,
+            'form' => $form,
         ]);
     }
 

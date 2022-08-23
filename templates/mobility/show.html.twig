@@ -3,40 +3,75 @@
 {% block title %}Mobility{% endblock %}
 
 {% block body %}
-    <h1>Mobility</h1>
+<h1>Mobility</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ mobility.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ mobility.name }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ mobility.description }}</td>
-            </tr>
-            <tr>
-                <th>StartDate</th>
-                <td>{{ mobility.startDate ? mobility.startDate|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>EndDate</th>
-                <td>{{ mobility.endDate ? mobility.endDate|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Size</th>
-                <td>{{ mobility.size }}</td>
-            </tr>
-        </tbody>
-    </table>
+<table class="table vertical">
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <td>{{ mobility.name }}</td>
+        </tr>
+        <tr>
+            <th>Institution</th>
+            <td>
+                <a href="{{ path('app_institution_show', {'id': mobility.institution.id}) }}">
+                    <img src="{{ mobility.institution.photoUrl }}">
+                    {{ mobility.institution.name }}
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <th>Grades</th>
+            <td>
+                {% for grade in mobility.grades %}
+                <a href="{{ path('app_grade_show', {'id': grade.id}) }}">
+                    {{ grade.name }}
+                </a>
+                {% else %}
+                No Grades required
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <th>Certifications</th>
+            <td>
+                {% for cert in mobility.certs %}
+                <a href="{{ path('app_certification_show', {'id': cert.id}) }}">
+                    {{ cert.name }}
+                </a>
+                {% else %}
+                No Certifications required
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>{{ mobility.description }}</td>
+        </tr>
+        <tr>
+            <th>StartDate</th>
+            <td>{{ mobility.startDate ? mobility.startDate|date('Y-m-d') : '' }}</td>
+        </tr>
+        <tr>
+            <th>EndDate</th>
+            <td>{{ mobility.endDate ? mobility.endDate|date('Y-m-d') : '' }}</td>
+        </tr>
+        <tr>
+            <th>Accepted Applications</th>
+            <td>{{ mobility.applications | filter(application => application.status == true) | length }} / {{
+                mobility.size }}</td>
+        </tr>
+    </tbody>
+</table>
 
-    <a href="{{ path('app_mobility_index') }}">back to list</a>
+<a href="{{ path('app_mobility_index') }}">back to list</a>
 
-    <a href="{{ path('app_mobility_edit', {'id': mobility.id}) }}">edit</a>
+{% if app.user.institution == mobility.institution %}
+<a href="{{ path('app_mobility_edit', {'id': mobility.id}) }}">edit</a>
+{{ include('mobility/_delete_form.html.twig') }}
+{% endif %}
 
-    {{ include('mobility/_delete_form.html.twig') }}
+{% include "application/index.html.twig" with {'applications': mobility.applications|filter(application =>
+application.verified)} %}
+
 {% endblock %}

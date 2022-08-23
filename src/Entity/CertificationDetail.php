@@ -44,6 +44,9 @@ class CertificationDetail
     public function setCertified(?User $certified): self
     {
         $this->certified = $certified;
+        if (!$certified->certificationDetails->contains($this)) {
+            $certified->addCertificationDetail($this);
+        }
 
         return $this;
     }
@@ -56,6 +59,9 @@ class CertificationDetail
     public function setCertification(?Certification $certification): self
     {
         $this->certification = $certification;
+        if (!$certification->certificationDetails->contains($this)) {
+            $certification->addCertificationDetail($this);
+        }
 
         return $this;
     }

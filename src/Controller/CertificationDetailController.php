@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/certification/detail')]
+#[Route('/certification-detail')]
 class CertificationDetailController extends AbstractController
 {
     #[Route('/', name: 'app_certification_detail_index', methods: ['GET'])]
@@ -18,25 +18,6 @@ class CertificationDetailController extends AbstractController
     {
         return $this->render('certification_detail/index.html.twig', [
             'certification_details' => $certificationDetailRepository->findAll(),
-        ]);
-    }
-
-    #[Route('/new', name: 'app_certification_detail_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, CertificationDetailRepository $certificationDetailRepository): Response
-    {
-        $certificationDetail = new CertificationDetail();
-        $form = $this->createForm(CertificationDetailType::class, $certificationDetail);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $certificationDetailRepository->add($certificationDetail, true);
-
-            return $this->redirectToRoute('app_certification_detail_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('certification_detail/new.html.twig', [
-            'certification_detail' => $certificationDetail,
-            'form' => $form,
         ]);
     }
 
@@ -64,6 +45,16 @@ class CertificationDetailController extends AbstractController
             'certification_detail' => $certificationDetail,
             'form' => $form,
         ]);
+    }
+
+    #[Route('/{id}/toggle/authentic', name: 'app_certification_detail_edit_toggle_authentic', methods: ['GET', 'POST'])]
+    public function toggleAuthentic(Request $request, CertificationDetail $certificationDetail, CertificationDetailRepository $certificationDetailRepository): Response
+    {
+        $certificationDetail->setAuthentic(!$certificationDetail->isAuthentic());
+        
+        $certificationDetailRepository->add($certificationDetail, true);
+
+        return $this->redirectToRoute('app_certification_detail_show', ['id' => $certificationDetail->getId()]);
     }
 
     #[Route('/{id}', name: 'app_certification_detail_delete', methods: ['POST'])]

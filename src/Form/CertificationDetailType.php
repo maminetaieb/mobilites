@@ -12,12 +12,9 @@ class CertificationDetailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('obtainDate')
             ->add('mark')
-            ->add('authentic')
-            ->add('certified')
-            ->add('certification')
-        ;
+            ->add('obtainDate')
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -1,0 +1,105 @@
+body {
+    background-color: #1d2a35;
+    color: #ddd;
+}
+
+h1 {
+    display: inline-block;
+    padding: 5px;
+}
+
+a {
+    color: rgb(82, 167, 82);
+}
+
+a:hover {
+    color: rgb(133, 228, 133);
+}
+
+img {
+    border-radius: 50%;
+    width: 125px;
+    height: 125px;
+}
+
+table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table td,
+table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+table tr {
+    background-color: rgb(15, 22, 28);
+}
+
+table.horizontal tr:hover {
+    background-color: #253645;
+}
+
+table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+}
+
+.sidenav {
+    height: 100%;
+    width: 160px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+.sidenav a {
+    padding: 20px 8px 20px 16px;
+    text-decoration: none;
+    font-size: 25px;
+    color: darkgray;
+    display: block;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+    background-color: #253645;
+}
+
+#logout-sidenav-btn {
+    color: salmon;
+    position: absolute;
+    padding: 44px;
+    bottom: 100px;
+}
+
+#logout-sidenav-btn:hover {
+    background-color: darkslategray;
+}
+
+.main {
+    margin-left: 160px;
+    /* Same as the width of the sidenav */
+    font-size: 22px;
+    /* Increased text to enable scrolling */
+    padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+
+    .sidenav a {
+        font-size: 18px;
+    }
+}

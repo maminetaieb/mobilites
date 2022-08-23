@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Certification;
+use App\Entity\CertificationDetail;
 use App\Form\CertificationType;
 use App\Repository\CertificationRepository;
+use App\Repository\CertificationDetailRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,6 +50,27 @@ class CertificationController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}/detail/new', name: 'app_certification_detail_new', methods: ['GET', 'POST'])]
+    public function certify(Certification $certification, Request $request, CertificationDetailRepository $certificationDetailRepository): Response
+    {
+        $certificationDetail = new CertificationDetail();
+        $certificationDetail->setCertified($this->getUser());
+        $certificationDetail->setCertification($certification);
+        $form = $this->createForm(CertificationDetailType::class, $certificationDetail);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $certificationDetailRepository->add($certificationDetail, true);
+
+            return $this->redirectToRoute('app_certification_detail_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('certification_detail/new.html.twig', [
+            'certification_detail' => $certificationDetail,
+            'form' => $form,
+        ]);
+    }
+
     #[Route('/{id}/edit', name: 'app_certification_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Certification $certification, CertificationRepository $certificationRepository): Response
     {
@@ -69,7 +92,7 @@ class CertificationController extends AbstractController
     #[Route('/{id}', name: 'app_certification_delete', methods: ['POST'])]
     public function delete(Request $request, Certification $certification, CertificationRepository $certificationRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$certification->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $certification->getId(), $request->request->get('_token'))) {
             $certificationRepository->remove($certification, true);
         }
 

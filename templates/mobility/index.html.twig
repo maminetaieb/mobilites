@@ -3,41 +3,58 @@
 {% block title %}Mobility index{% endblock %}
 
 {% block body %}
-    <h1>Mobility index</h1>
+<h1>Mobility index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>StartDate</th>
-                <th>EndDate</th>
-                <th>Size</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+<table class="table horizontal">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            {% if includedIn is not defined or includedIn != "institution/show" %}
+            <th>Host</th>
+            {% endif %}
+            <th>StartDate</th>
+            <th>EndDate</th>
+            <th>Applications</th>
+            <th>actions</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for mobility in mobilities %}
-            <tr>
-                <td>{{ mobility.id }}</td>
-                <td>{{ mobility.name }}</td>
-                <td>{{ mobility.description }}</td>
-                <td>{{ mobility.startDate ? mobility.startDate|date('Y-m-d') : '' }}</td>
-                <td>{{ mobility.endDate ? mobility.endDate|date('Y-m-d') : '' }}</td>
-                <td>{{ mobility.size }}</td>
-                <td>
-                    <a href="{{ path('app_mobility_show', {'id': mobility.id}) }}">show</a>
-                    <a href="{{ path('app_mobility_edit', {'id': mobility.id}) }}">edit</a>
-                </td>
-            </tr>
+        <tr>
+            <td>{{ mobility.name }}</td>
+            <td>{{ mobility.description }}</td>
+            {% if includedIn is not defined or includedIn != "institution/show" %}
+            <td>
+                <a href="{{ path('app_institution_show', {'id': mobility.institution.id}) }}">
+                    <img src="{{ mobility.institution.photoUrl }}">
+                    {{ mobility.institution.name }}
+                </a>
+            </td>
+            {% endif %}
+            <td>{{ mobility.startDate ? mobility.startDate|date('Y-m-d') : '' }}</td>
+            <td>{{ mobility.endDate ? mobility.endDate|date('Y-m-d') : '' }}</td>
+            <td>
+                {{ mobility.applications | filter(application => application.status == true) | length }}
+                / {{ mobility.size }}
+                <a href="{{ path('app_mobility_show', {'id': mobility.id, '_fragment': "applications"}) }}">
+                    ({{ mobility.applications | filter(application => application.verified and application.status is
+                    null) | length }} pending)
+                </a>
+            </td>
+            <td>
+                <a href="{{ path('app_mobility_show', {'id': mobility.id}) }}">show</a>
+                {% if app.user.institution == mobility.institution %}
+                <a href="{{ path('app_mobility_edit', {'id': mobility.id}) }}">edit</a>
+                {% endif %}
+            </td>
+        </tr>
         {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
+        <tr>
+            <td colspan="7">no records found</td>
+        </tr>
         {% endfor %}
-        </tbody>
-    </table>
+    </tbody>
+</table>
 
-    <a href="{{ path('app_mobility_new') }}">Create new</a>
 {% endblock %}

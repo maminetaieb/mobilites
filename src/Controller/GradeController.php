@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Grade;
+use App\Entity\YearDetail;
 use App\Form\GradeType;
+use App\Form\YearDetailType;
 use App\Repository\GradeRepository;
+use App\Repository\YearDetailRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,6 +28,7 @@ class GradeController extends AbstractController
     public function new(Request $request, GradeRepository $gradeRepository): Response
     {
         $grade = new Grade();
+        $grade->setInstitution($this->getUser()->getInstitution());
         $form = $this->createForm(GradeType::class, $grade);
         $form->handleRequest($request);
 
@@ -62,6 +66,27 @@ class GradeController extends AbstractController
 
         return $this->renderForm('grade/edit.html.twig', [
             'grade' => $grade,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}/year-detail/new', name: 'app_year_detail_new', methods: ['GET', 'POST'])]
+    public function addYear(Grade $grade, Request $request, YearDetailRepository $yearDetailRepository): Response
+    {
+        $yearDetail = new YearDetail();
+        $yearDetail->setStudent($this->getUser());
+        $yearDetail->setGrade($grade);
+        $form = $this->createForm(YearDetailType::class, $yearDetail);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $yearDetailRepository->add($yearDetail, true);
+
+            return $this->redirectToRoute('app_year_detail_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('year_detail/new.html.twig', [
+            'year_detail' => $yearDetail,
             'form' => $form,
         ]);
     }

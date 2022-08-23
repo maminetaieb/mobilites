@@ -5,6 +5,11 @@ namespace App\Controller;
 use App\Entity\Institution;
 use App\Form\InstitutionType;
 use App\Repository\InstitutionRepository;
+use App\Repository\UserRepository;
+use App\Repository\ApplicationRepository;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +22,7 @@ class InstitutionController extends AbstractController
     public function index(InstitutionRepository $institutionRepository): Response
     {
         return $this->render('institution/index.html.twig', [
-            'institutions' => $institutionRepository->findAll(),
+            'institutions' => $institutionRepository->findAll()
         ]);
     }
 
@@ -25,6 +30,7 @@ class InstitutionController extends AbstractController
     public function new(Request $request, InstitutionRepository $institutionRepository): Response
     {
         $institution = new Institution();
+        $institution->addManager($this->getUser());
         $form = $this->createForm(InstitutionType::class, $institution);
         $form->handleRequest($request);
 
@@ -49,7 +55,7 @@ class InstitutionController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_institution_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Institution $institution, InstitutionRepository $institutionRepository): Response
+    public function edit(Request $request, Institution $institution, InstitutionRepository $institutionRepository, UserRepository $userRepository, ApplicationRepository $applicationRepository): Response
     {
         $form = $this->createForm(InstitutionType::class, $institution);
         $form->handleRequest($request);
@@ -60,16 +66,65 @@ class InstitutionController extends AbstractController
             return $this->redirectToRoute('app_institution_index', [], Response::HTTP_SEE_OTHER);
         }
 
+        $managersCriteria = new Criteria();
+        $managersExpressionBuilder = Criteria::expr();
+        $managersCriteria
+            ->where($managersExpressionBuilder->orX(
+                $managersExpressionBuilder->isNull('institution'),
+                $managersExpressionBuilder->eq('institution', $institution)
+            ))
+            ->orderBy([
+                'institution' => 'DESC'
+            ]);
+
+        $outgoingApplicationsCriteria = new Criteria();
+        $outgoingApplicationsExpressionBuilder = Criteria::expr();
+        $outgoingApplicationsCriteria
+        ->where($outgoingApplicationsExpressionBuilder->in('sourceGrade', $institution->getGrades()->toArray()));
+        $a =$applicationRepository->matching($outgoingApplicationsCriteria);
+        dump($a);
+
         return $this->renderForm('institution/edit.html.twig', [
             'institution' => $institution,
+            'managers' => $userRepository->matching($managersCriteria),
+            'outgoingApplications' => $applicationRepository->matching($outgoingApplicationsCriteria),
             'form' => $form,
         ]);
+    }
+
+    #[Route('/{id}/add-manager/{mid}', name: 'app_institution_edit_managers_add', methods: ['GET', 'POST'])]
+    public function addManager(Request $request, EntityManagerInterface $entityManager, Institution $institution, UserRepository $userRepository): Response
+    {
+        $newManager = $userRepository->find(($request->get('mid')));
+        $institution->addManager($newManager);
+
+        $entityManager->flush($newManager);
+        $entityManager->flush($institution);
+
+
+        return $this->redirectToRoute('app_institution_edit', ['id' => $institution->getId()]);
+    }
+
+    #[Route('/{id}/remove-manager/{mid}', name: 'app_institution_edit_managers_remove', methods: ['GET', 'POST'])]
+    public function removeManager(Request $request, EntityManagerInterface $entityManager, Institution $institution, UserRepository $userRepository): Response
+    {
+        $oldManager = $userRepository->find(($request->get('mid')));
+        $institution->removeManager($oldManager);
+
+        $entityManager->flush($oldManager);
+        $entityManager->flush($institution);
+
+        if ($this->getUser() == $oldManager) {
+            return $this->redirectToRoute('app_institution_show', ['id' => $institution->getId()]);
+        }
+
+        return $this->redirectToRoute('app_institution_edit', ['id' => $institution->getId()]);
     }
 
     #[Route('/{id}', name: 'app_institution_delete', methods: ['POST'])]
     public function delete(Request $request, Institution $institution, InstitutionRepository $institutionRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$institution->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $institution->getId(), $request->request->get('_token'))) {
             $institutionRepository->remove($institution, true);
         }
 

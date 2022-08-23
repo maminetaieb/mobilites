@@ -14,9 +14,8 @@ class CertificationType extends AbstractType
         $builder
             ->add('name')
             ->add('field')
-            ->add('stringMarksAllowed')
             ->add('markDescription')
-            ->add('mobilities')
+            ->add('stringMarksAllowed')
         ;
     }
 
