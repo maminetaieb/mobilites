@@ -29,7 +29,7 @@
                 Error retrieving location
                 {% endif %}
             </td>
-            <td><a href="{{ institution.website }}">{{ institution.website }}</a></td>
+            <td><a target="_blank" rel="noopener noreferrer" href="{{ institution.website }}">{{ institution.website }}</a></td>
             <td>
                 <a href="{{ path('app_institution_show', {'id': institution.id}) }}">show</a>
                 {% if app.user.institution == institution %}

@@ -18,12 +18,17 @@
 
 <body>
     {% if app.user %}
-    <div class="mb-3">
-        You are logged in as {{ app.user.password }}, <a href="{{ path('app_logout') }}">Logout</a>
-
+    <div class="sidenav">
+        <a href="{{ path('app_user_show', {'id': app.user.id}) }}">Profile</a>
+        <a href="{{ path('app_certification_index') }}">Certifications</a>
+        <a href="{{ path('app_institution_index') }}">Institutions</a>
+        <a href="{{ path('app_mobility_index') }}">Mobilities</a>
+        <a href="{{ path('app_logout') }}" id="logout-sidenav-btn">Logout</a>
     </div>
     {% endif %}
-    {% block body %}{% endblock %}
+    <div class="main">
+        {% block body %}{% endblock %}
+    </div>
 </body>
 
 </html>
