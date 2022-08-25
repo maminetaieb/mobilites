@@ -96,7 +96,7 @@
 	</tbody>
 </table>
 
-{% if includedIn is not defined or includedIn is defined and includedIn != 'grade/edit' %}
+{% if (includedIn is not defined or includedIn is defined and includedIn != 'grade/edit') and mobility is defined and mobility is not null and currdate < mobility.startDate and mobility.size > mobility.applications|filter(a => a.status == true)|length %}
 {% if cachedApplication is null %}
 <a href="{{ path('app_application_new', {'id': mobility.id}) }}">Apply</a>
 {% elseif cachedApplication.status is null %}

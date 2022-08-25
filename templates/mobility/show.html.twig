@@ -72,6 +72,6 @@
 {% endif %}
 
 {% include "application/index.html.twig" with {'applications': mobility.applications|filter(application =>
-application.verified)} %}
+application.verified), 'mobility': mobility, 'currdate': currdate} %}
 
 {% endblock %}

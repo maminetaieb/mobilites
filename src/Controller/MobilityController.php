@@ -8,6 +8,7 @@ use App\Form\MobilityType;
 use App\Form\ApplicationType;
 use App\Repository\MobilityRepository;
 use App\Repository\ApplicationRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,8 +21,18 @@ class MobilityController extends AbstractController
     #[Route('/', name: 'app_mobility_index', methods: ['GET'])]
     public function index(MobilityRepository $mobilityRepository): Response
     {
+        $suggestedMobilityCriteria = new Criteria();
+        $suggestedMobilityExpressionBuilder = Criteria::expr();
+
+        $suggestedMobilityCriteria->where(
+            $suggestedMobilityExpressionBuilder->gte('startDate', new \DateTime('now')),
+        )->orderBy([
+            'startDate' => 'ASC',
+        ]);
+
+
         return $this->render('mobility/index.html.twig', [
-            'mobilities' => $mobilityRepository->findAll(),
+            'mobilities' => $mobilityRepository->matching($suggestedMobilityCriteria),
         ]);
     }
 
@@ -50,6 +61,7 @@ class MobilityController extends AbstractController
     {
         return $this->render('mobility/show.html.twig', [
             'mobility' => $mobility,
+            'currdate' => new \DateTime('now'),
         ]);
     }
 
@@ -96,7 +108,7 @@ class MobilityController extends AbstractController
     #[Route('/{id}', name: 'app_mobility_delete', methods: ['POST'])]
     public function delete(Request $request, Mobility $mobility, MobilityRepository $mobilityRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$mobility->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $mobility->getId(), $request->request->get('_token'))) {
             $mobilityRepository->remove($mobility, true);
         }
 

@@ -80,9 +80,7 @@ class InstitutionController extends AbstractController
         $outgoingApplicationsCriteria = new Criteria();
         $outgoingApplicationsExpressionBuilder = Criteria::expr();
         $outgoingApplicationsCriteria
-        ->where($outgoingApplicationsExpressionBuilder->in('sourceGrade', $institution->getGrades()->toArray()));
-        $a =$applicationRepository->matching($outgoingApplicationsCriteria);
-        dump($a);
+            ->where($outgoingApplicationsExpressionBuilder->in('sourceGrade', $institution->getGrades()->toArray()));
 
         return $this->renderForm('institution/edit.html.twig', [
             'institution' => $institution,
