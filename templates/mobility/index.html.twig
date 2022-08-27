@@ -36,8 +36,12 @@
             <td>{{ mobility.endDate ? mobility.endDate|date('Y-m-d') : '' }}</td>
             <td>
                 {{ mobility.applications | filter(application => application.status == true) | length }}
+                {% if mobility.size is not null %}
                 / {{ mobility.size }}
-                <a href="{{ path('app_mobility_show', {'id': mobility.id, '_fragment': "applications"}) }}">
+                {% else %}
+                joined
+                {% endif %}
+                <a href="{{ path('app_mobility_show', {'id': mobility.id, '_fragment': " applications"}) }}">
                     ({{ mobility.applications | filter(application => application.verified and application.status is
                     null) | length }} pending)
                 </a>

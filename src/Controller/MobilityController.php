@@ -40,11 +40,11 @@ class MobilityController extends AbstractController
     public function new(Request $request, MobilityRepository $mobilityRepository): Response
     {
         $mobility = new Mobility();
-        $mobility->setInstitution($this->getUser()->getInstitution());
         $form = $this->createForm(MobilityType::class, $mobility);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $mobility->setInstitution($this->getUser()->getInstitution());
             $mobilityRepository->add($mobility, true);
 
             return $this->redirectToRoute('app_mobility_index', [], Response::HTTP_SEE_OTHER);
@@ -69,13 +69,14 @@ class MobilityController extends AbstractController
     public function apply(Mobility $mobility, Request $request, ApplicationRepository $applicationRepository): Response
     {
         $application = new Application();
-        $application->setApplicationDate(new \DateTime('now'));
-        $application->setApplicant($this->getUser());
-        $mobility->addApplication($application);
         $form = $this->createForm(ApplicationType::class, $application);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $application->setApplicationDate(new \DateTime('now'));
+            $application->setApplicant($this->getUser());
+            $mobility->addApplication($application);
+
             $applicationRepository->add($application, true);
 
             return $this->redirectToRoute('app_mobility_show', ['id' => $mobility->getId()], Response::HTTP_SEE_OTHER);

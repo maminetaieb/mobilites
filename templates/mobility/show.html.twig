@@ -58,8 +58,14 @@
         </tr>
         <tr>
             <th>Accepted Applications</th>
-            <td>{{ mobility.applications | filter(application => application.status == true) | length }} / {{
-                mobility.size }}</td>
+            <td>
+                {{ mobility.applications | filter(application => application.status == true) | length }}
+                {% if mobility.size is not null %}
+                / {{ mobility.size }}
+                {% else %}
+                joined
+                {% endif %}
+            </td>
         </tr>
     </tbody>
 </table>

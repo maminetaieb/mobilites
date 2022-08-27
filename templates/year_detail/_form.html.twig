@@ -1,4 +1,18 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="">{{ button_label|default('Save') }}</button>
+{{ form_row(form.academicYear) }}
+{{ form_label(form.moyennes)}}
+<ul id="moyenne-fields-list" data-prototype="{{ form_widget(form.moyennes.vars.prototype)|e }}"
+    data-widget-tags="{{ '<li></li>'|e }}" data-widget-counter="{{ form.moyennes|length }}">
+    {% for moyenneField in form.moyennes %}
+    <li>
+        {{ form_errors(moyenneField) }}
+        {{ form_widget(moyenneField) }}
+    </li>
+    {% endfor %}
+</ul>
+<button type="button" class="add-another-collection-widget" data-list-selector="#moyenne-fields-list">Add another
+    moyenne</button>
+{{ form_row(form.fr) }}
+{{ form_row(form.eng) }}
+<button class="">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

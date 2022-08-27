@@ -126,9 +126,6 @@ class Institution
 
     public function setWebsite(?string $website): self
     {
-        if (strpos($website, "://") === false) {
-            $website = "https://" . $website;
-        }
         $this->website = $website;
 
         return $this;

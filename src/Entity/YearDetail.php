@@ -25,11 +25,11 @@ class YearDetail
     #[ORM\Column(type: Types::ARRAY)]
     private array $moyennes = [];
 
-    #[ORM\Column(length: 100, nullable: true)]
-    private ?string $eng = null;
+    #[ORM\Column(nullable: true)]
+    private ?float $eng = null;
 
-    #[ORM\Column(length: 100, nullable: true)]
-    private ?string $fr = null;
+    #[ORM\Column(nullable: true)]
+    private ?float $fr = null;
 
     #[ORM\Column]
     private ?int $academicYear = null;
@@ -92,24 +92,24 @@ class YearDetail
         return $this;
     }
 
-    public function getEng(): ?string
+    public function getEng(): ?float
     {
         return $this->eng;
     }
 
-    public function setEng(?string $eng): self
+    public function setEng(?float $eng): self
     {
         $this->eng = $eng;
 
         return $this;
     }
 
-    public function getFr(): ?string
+    public function getFr(): ?float
     {
         return $this->fr;
     }
 
-    public function setFr(?string $fr): self
+    public function setFr(?float $fr): self
     {
         $this->fr = $fr;
 

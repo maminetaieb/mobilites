@@ -30,11 +30,11 @@ class InstitutionController extends AbstractController
     public function new(Request $request, InstitutionRepository $institutionRepository): Response
     {
         $institution = new Institution();
-        $institution->addManager($this->getUser());
         $form = $this->createForm(InstitutionType::class, $institution);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $institution->addManager($this->getUser());
             $institutionRepository->add($institution, true);
 
             return $this->redirectToRoute('app_institution_index', [], Response::HTTP_SEE_OTHER);

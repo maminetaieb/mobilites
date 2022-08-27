@@ -54,12 +54,13 @@ class CertificationController extends AbstractController
     public function certify(Certification $certification, Request $request, CertificationDetailRepository $certificationDetailRepository): Response
     {
         $certificationDetail = new CertificationDetail();
-        $certificationDetail->setCertified($this->getUser());
-        $certificationDetail->setCertification($certification);
         $form = $this->createForm(CertificationDetailType::class, $certificationDetail);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $certificationDetail->setCertified($this->getUser());
+            $certificationDetail->setCertification($certification);
+
             $certificationDetailRepository->add($certificationDetail, true);
 
             return $this->redirectToRoute('app_certification_detail_index', [], Response::HTTP_SEE_OTHER);

@@ -28,11 +28,12 @@ class GradeController extends AbstractController
     public function new(Request $request, GradeRepository $gradeRepository): Response
     {
         $grade = new Grade();
-        $grade->setInstitution($this->getUser()->getInstitution());
         $form = $this->createForm(GradeType::class, $grade);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $grade->setInstitution($this->getUser()->getInstitution());
+
             $gradeRepository->add($grade, true);
 
             return $this->redirectToRoute('app_grade_index', [], Response::HTTP_SEE_OTHER);
@@ -74,12 +75,13 @@ class GradeController extends AbstractController
     public function addYear(Grade $grade, Request $request, YearDetailRepository $yearDetailRepository): Response
     {
         $yearDetail = new YearDetail();
-        $yearDetail->setStudent($this->getUser());
-        $yearDetail->setGrade($grade);
         $form = $this->createForm(YearDetailType::class, $yearDetail);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $yearDetail->setStudent($this->getUser());
+            $yearDetail->setGrade($grade);
+
             $yearDetailRepository->add($yearDetail, true);
 
             return $this->redirectToRoute('app_year_detail_index', [], Response::HTTP_SEE_OTHER);
@@ -94,7 +96,7 @@ class GradeController extends AbstractController
     #[Route('/{id}', name: 'app_grade_delete', methods: ['POST'])]
     public function delete(Request $request, Grade $grade, GradeRepository $gradeRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$grade->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $grade->getId(), $request->request->get('_token'))) {
             $gradeRepository->remove($grade, true);
         }
 

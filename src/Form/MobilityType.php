@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Mobility;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,13 +14,12 @@ class MobilityType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('description')
+            ->add('description', TextareaType::class)
             ->add('startDate')
             ->add('endDate')
             ->add('size')
             ->add('grades')
-            ->add('certs')
-        ;
+            ->add('certs');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
