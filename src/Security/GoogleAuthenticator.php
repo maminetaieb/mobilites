@@ -64,8 +64,10 @@ class GoogleAuthenticator extends OAuth2Authenticator
                     $existingUser->setGoogleId($googleUser->getId());
                     $existingUser->setPassword($googleUser->getName());
                     $existingUser->setNationality($googleUser->getName());
-
+                    $existingUser->setPhotoUrl($googleUser->getAvatar());
+                    $existingUser->setIsVerified(true);
                     $existingUser->setHostedDomain("azerty");
+                    
 
                     $this->entityManager->persist($existingUser);
                 }

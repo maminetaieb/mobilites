@@ -28,6 +28,9 @@ class GoogleController extends AbstractController
     #[Route('/connect/google/check', name: 'connect_google_check')]
     public function connectCheckAction(Request $request)
     {
+        /*YOU CAN LET THIS METHOD BLANK 
+          WE HAVE A CUSTOM AUTHENTICATOR
+        */
         if (!$this->getUser()) {
             return new JsonResponse(array('status' => false, 'message' => "User not found!"));
         } else {

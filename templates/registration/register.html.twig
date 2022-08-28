@@ -30,5 +30,7 @@
 
         <button type="submit" class="btn">Register</button>
     {{ form_end(registrationForm) }}
+    <p> Sign up with google <a href="{{ path('connect_google') }}">Connect</a></p>
     <p>Already have an account? <a href="{{ path('app_login') }}">Login</a></p>
+
 {% endblock %}
