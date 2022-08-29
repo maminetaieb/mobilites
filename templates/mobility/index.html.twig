@@ -21,7 +21,7 @@
     </thead>
     <tbody>
         {% for mobility in mobilities %}
-        <tr>
+        <tr {% if (includedIn is not defined or includedIn != 'institution/show') and mobility.institution==app.user.institution %} class="owned-row" {% endif %}>
             <td>{{ mobility.name }}</td>
             <td>{{ mobility.description }}</td>
             {% if includedIn is not defined or includedIn != "institution/show" %}

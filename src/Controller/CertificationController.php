@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Certification;
 use App\Entity\CertificationDetail;
 use App\Form\CertificationType;
+use App\Form\CertificationDetailType;
 use App\Repository\CertificationRepository;
 use App\Repository\CertificationDetailRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

@@ -14,22 +14,50 @@
 <table class="table horizontal">
     <thead>
         <tr>
-            <th>Id</th>
-            <th>Email</th>
-            <th>Password</th>
             <th>Name</th>
+            <th>Gender</th>
+            <th>Nationality</th>
+            {% if includedIn is not defined or includedIn != 'institution/edit' %}
+            <th>Institution</th>
+            {% endif %}
             <th>actions</th>
         </tr>
     </thead>
     <tbody>
         {% for user in users %}
-        <tr>
-            <td>{{ user.id }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.password }}</td>
-            <td>{{ user.name }}</td>
+
+        <tr {% if user==app.user %} class="owned-row" {% endif %}>
             <td>
-                <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
+                <a href="{{ path('app_user_show', {'id': user.id}) }}">
+                    <img src="{{ user.photoUrl }}">
+                    {{ user.name }}
+                </a>
+            </td>
+            <td>
+                {% if user.gender is not null %}
+                {% if user.gender %}
+                M
+                {% else %}
+                F
+                {% endif %}
+                {% else %}
+                !
+                {% endif %}
+            </td>
+            <td>{{ user.nationalityFlag }}</td>
+            {% if includedIn is not defined or includedIn != 'institution/edit' %}
+            <td>
+                {% if user.institution is not null %}
+                <a href="{{ path('app_institution_show', {'id': user.institution.id}) }}">
+                    <img src="{{ user.institution.photoUrl }}">
+                    {{ user.institution.name }}
+                </a>
+                {% else %}
+                Not a manager
+                {% endif %}
+            </td>
+            {% endif %}
+            <td>
                 {% if institution is defined and app.user.institution is not null and institution.id ==
                 app.user.institution.id %}
                 {% if user.institution is null %}
@@ -48,6 +76,16 @@
                 </a>
                 {% endif %}
                 {% endif %}
+                <p>
+                    <a href="mailto:{{ user.email }}" target="_blank" rel="noopener noreferrer">
+                        email
+                    </a>
+                </p>
+                <p>
+                    <a href="{{ path('app_user_show', {'id': user.id}) }}">
+                        show
+                    </a>
+                </p>
             </td>
         </tr>
         {% else %}

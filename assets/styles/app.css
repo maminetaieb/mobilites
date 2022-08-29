@@ -38,6 +38,10 @@ table tr {
     background-color: rgb(15, 22, 28);
 }
 
+.owned-row {
+    background-color: rgb(15, 28, 22);
+}
+
 table.horizontal tr:hover {
     background-color: #253645;
 }
@@ -89,7 +93,7 @@ table th {
 .main {
     margin-left: 160px;
     /* Same as the width of the sidenav */
-    font-size: 22px;
+    font-size: 18px;
     /* Increased text to enable scrolling */
     padding: 0px 10px;
 }

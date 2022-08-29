@@ -18,7 +18,7 @@
     </thead>
     <tbody>
         {% for institution in institutions %}
-        <tr>
+        <tr {% if app.user.institution==institution %} class="owned-row" {% endif %}>
             <td><img src="{{ institution.photoUrl }}"></td>
             <td>{{ institution.name }}</td>
             <td>{{ institution.description }}</td>
@@ -29,7 +29,8 @@
                 Error retrieving location
                 {% endif %}
             </td>
-            <td><a target="_blank" rel="noopener noreferrer" href="{{ institution.website }}">{{ institution.website }}</a></td>
+            <td><a target="_blank" rel="noopener noreferrer" href="{{ institution.website }}">{{ institution.website
+                    }}</a></td>
             <td>
                 <a href="{{ path('app_institution_show', {'id': institution.id}) }}">show</a>
                 {% if app.user.institution == institution %}

@@ -143,7 +143,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-  /**
+    /**
      * Returning a salt is only needed, if you are not using a modern
      * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
      *
@@ -258,7 +258,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getCurrentYear(): ?YearDetail
     {
-        $currentAcademicYear = (date('m') < 10)? date('Y'): date('Y')+1;
+        $currentAcademicYear = (date('m') < 10) ? date('Y') : date('Y') + 1;
         foreach (array_reverse($this->getYearDetails()->toArray()) as $yearDetail) {
             if ($yearDetail->getAcademicYear() == $currentAcademicYear) {
                 return $yearDetail;
@@ -306,6 +306,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getNationality(): ?string
     {
         return $this->nationality;
+    }
+
+    public function getNationalityFlag(): ?string
+    {
+        if (strlen($this->nationality) == 2) {
+            $regionalOffset = 0x1F1A5;
+
+            return mb_chr($regionalOffset + mb_ord($this->nationality[0], 'UTF-8'), 'UTF-8')
+                . mb_chr($regionalOffset + mb_ord($this->nationality[1], 'UTF-8'), 'UTF-8');
+        }
+        return '!';
     }
 
     public function setNationality(string $nationality): self
