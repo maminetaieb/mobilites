@@ -42,8 +42,20 @@ table tr {
     background-color: rgb(15, 28, 22);
 }
 
+.rejected-row {
+    background-color: rgb(28, 15, 16);
+}
+
+.approved-row {
+    background-color: rgb(15, 28, 17);
+}
+
+.proved-row {
+    background-color: rgb(18, 15, 28);
+}
+
 table.horizontal tr:hover {
-    background-color: #253645;
+    opacity: .82;
 }
 
 table th {

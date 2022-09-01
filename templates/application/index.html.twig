@@ -32,14 +32,14 @@
 		{% for application in applications %}
 		<tr class="{{
 			(app.user == application.applicant)?
-				(application.status == false or application.verified == false)?
-				rejected-row : (application.status == true)? approved-row : (applications.verified == true)? proved-row: owned-row
-		}}>
+				(application.verified is null and application.status is null)?
+				'owned-row' : (application.status == true)? 'approved-row' : (application.verified == true)? 'proved-row': 'rejected-row'
+		}}">
 			<td>
 				<a href=" {{ path('app_user_show', {'id': application.applicant.id}) }}" class="link-btnshow-link-">
-			<img src="{{ application.applicant.photoUrl }}">
-			{{ application.applicant.name }}
-			</a>
+					<img src="{{ application.applicant.photoUrl }}">
+					{{ application.applicant.name }}
+				</a>
 			</td>
 			<td>
 				{% if application.applicant.currentYear is not null %}

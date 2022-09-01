@@ -77,7 +77,7 @@
 {{ include('mobility/_delete_form.html.twig') }}
 {% endif %}
 
-{% include "application/index.html.twig" with {'applications': mobility.applications|filter(application =>
-application.verified), 'mobility': mobility, 'currdate': currdate} %}
+{% include "application/index.html.twig" with {'applications': mobility.applications, 'mobility': mobility, 'currdate':
+currdate} %}
 
 {% endblock %}
