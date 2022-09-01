@@ -30,12 +30,16 @@
 		{% set cachedApplication = null %}
 		{% endif %}
 		{% for application in applications %}
-		<tr>
+		<tr class="{{
+			(app.user == application.applicant)?
+				(application.status == false or application.verified == false)?
+				rejected-row : (application.status == true)? approved-row : (applications.verified == true)? proved-row: owned-row
+		}}>
 			<td>
-				<a href="{{ path('app_user_show', {'id': application.applicant.id}) }}" class="link-btnshow-link-">
-					<img src="{{ application.applicant.photoUrl }}">
-					{{ application.applicant.name }}
-				</a>
+				<a href=" {{ path('app_user_show', {'id': application.applicant.id}) }}" class="link-btnshow-link-">
+			<img src="{{ application.applicant.photoUrl }}">
+			{{ application.applicant.name }}
+			</a>
 			</td>
 			<td>
 				{% if application.applicant.currentYear is not null %}
@@ -96,12 +100,14 @@
 	</tbody>
 </table>
 
-{% if (includedIn is not defined or includedIn is defined and includedIn != 'grade/edit') and mobility is defined and mobility is not null and currdate < mobility.startDate and mobility.size > mobility.applications|filter(a => a.status == true)|length %}
-{% if cachedApplication is null %}
-<a href="{{ path('app_application_new', {'id': mobility.id}) }}">Apply</a>
-{% elseif cachedApplication.status is null %}
-<a href="{{ path('app_application_delete', {'id': cachedApplication.id}) }}">Cancel Application</a>
-{% endif %}
-{% endif %}
+{% if (includedIn is not defined or includedIn is defined and includedIn != 'grade/edit') and mobility is defined and
+mobility is not null and currdate < mobility.startDate and mobility.size> mobility.applications|filter(a => a.status ==
+	true)|length %}
+	{% if cachedApplication is null %}
+	<a href="{{ path('app_application_new', {'id': mobility.id}) }}">Apply</a>
+	{% elseif cachedApplication.status is null %}
+	<a href="{{ path('app_application_delete', {'id': cachedApplication.id}) }}">Cancel Application</a>
+	{% endif %}
+	{% endif %}
 
-{% endblock %}
+	{% endblock %}

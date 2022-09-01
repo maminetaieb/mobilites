@@ -73,8 +73,8 @@ class MobilityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $application->setApplicationDate(new \DateTime('now'));
             $application->setApplicant($this->getUser());
+            $application->setApplicationDate(new \DateTime('now'));
             $mobility->addApplication($application);
 
             $applicationRepository->add($application, true);
