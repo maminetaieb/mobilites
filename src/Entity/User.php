@@ -61,6 +61,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $birthDate = null;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private $googleId;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private $avatar ;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $hostedDomain = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,6 +83,39 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+    public function getGoogleId(): ?string
+    {
+        return $this->googleId;
+    }
+
+    public function setGoogleId(string $googleId): self
+    {
+        $this->googleId = $googleId;
+
+        return $this;
+    }
+    public function getHostedDomain(): ?string
+    {
+        return $this->hostedDomain;
+    }
+
+    public function setHostedDomain(string $hostedDomain): self
+    {
+        $this->hostedDomain = $hostedDomain;
+
+        return $this;
+    }
+    public function getAvatar(): ?text
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(string $avatar): self
+    {
+        $this->avatar = $avatar;
 
         return $this;
     }
