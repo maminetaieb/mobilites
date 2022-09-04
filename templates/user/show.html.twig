@@ -23,7 +23,7 @@
                 {% if user.nationality|length != 2 %}
                 Not Provided
                 {% else %}
-                {{ user.nationality|country_name }}  ({{ user.nationalityFlag }})
+                {{ user.nationalityFlag }} {{ user.nationality|country_name }}
                 {% endif %}
             </td>
         </tr>
