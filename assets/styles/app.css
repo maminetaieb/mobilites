@@ -119,3 +119,30 @@ table th {
         font-size: 18px;
     }
 }
+
+.parentContainer {
+    border: 5px solid lightgray;
+    border-radius: 4%;
+    display: inline-block;
+    text-align: center;
+    padding: 30px;
+    margin: 3%;
+    margin-left: 17%;
+    width: 50%;
+}
+
+.btn {
+    font: bold 11px Arial;
+    text-decoration: none;
+    background-color: #1b1919;
+    color: #EEEEEE;
+    padding: 2px 6px 2px 6px;
+    border-top: 1px solid #CCCCCC;
+    border-right: 1px solid #333333;
+    border-bottom: 1px solid #333333;
+    border-left: 1px solid #CCCCCC;
+}
+
+.btn:hover {
+    color: #7abaa3;
+}

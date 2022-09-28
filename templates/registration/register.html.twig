@@ -7,8 +7,10 @@
 <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
 {% endfor %}
 
+    <div class="parentContainer">
     <h1>Register</h1>
 
+    {% form_theme registrationForm 'bootstrap_5_layout.html.twig' %}
     {{ form_start(registrationForm) }}
         {{ form_row(registrationForm.email) }}
 
@@ -30,7 +32,8 @@
 
         <button type="submit" class="btn">Register</button>
     {{ form_end(registrationForm) }}
-    <p> Sign up with google <a href="{{ path('connect_google') }}">Connect</a></p>
-    <p>Already have an account? <a href="{{ path('app_login') }}">Login</a></p>
+    <p> Sign up with google <a href="{{ path('connect_google') }}" class="btn">Connect</a></p>
+    <p>Already have an account? <a href="{{ path('app_login') }}" class="btn">Login</a></p>
+    </div>
 
 {% endblock %}
