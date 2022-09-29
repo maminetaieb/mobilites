@@ -127,8 +127,14 @@ table th {
     text-align: center;
     padding: 30px;
     margin: 3%;
-    margin-left: 17%;
+    margin-left: 22%;
     width: 50%;
+}
+
+label#register {
+    display: inline-block;
+    width: 144px;
+    margin-right: 20px;
 }
 
 .btn {

@@ -7,11 +7,15 @@
 <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
 {% endfor %}
 
-    <div class="parentContainer">
+    <div class="parentContainer" id="register">
     <h1>Register</h1>
 
     {% form_theme registrationForm 'bootstrap_5_layout.html.twig' %}
     {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.name) }}
+
+        {{ form_row(registrationForm.photoUrl) }}
+
         {{ form_row(registrationForm.email) }}
 
         {{ form_row(registrationForm.plainPassword.first, {
@@ -20,11 +24,11 @@
         {{ form_row(registrationForm.plainPassword.second, {
             label: 'Confirm Password'
         }) }}
+
         {{ form_row(registrationForm.birthDate) }}
-                {{ form_row(registrationForm.photoUrl) }}
-
-
         {{ form_row(registrationForm.gender) }}
+
+
 
         {{ form_row(registrationForm.nationality) }}
 

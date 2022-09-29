@@ -3,9 +3,12 @@
 {% block title %}New CertificationDetail{% endblock %}
 
 {% block body %}
+    <div class="parentContainer">
     <h1>Create new CertificationDetail</h1>
 
+    {% form_theme form 'bootstrap_5_horizontal_layout.html.twig' %}
     {{ include('certification_detail/_form.html.twig') }}
 
     <a href="{{ path('app_certification_detail_index') }}">back to list</a>
+    </div>
 {% endblock %}

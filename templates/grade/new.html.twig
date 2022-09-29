@@ -3,9 +3,12 @@
 {% block title %}New Grade{% endblock %}
 
 {% block body %}
+    <div class="parentContainer">
     <h1>Create new Grade</h1>
 
+    {% form_theme form 'bootstrap_5_horizontal_layout.html.twig' %}
     {{ include('grade/_form.html.twig') }}
 
     <a href="{{ path('app_institution_show', {'id': app.user.institution.id}) }}">back to institution</a>
+    </div>
 {% endblock %}

@@ -3,9 +3,12 @@
 {% block title %}New Mobility{% endblock %}
 
 {% block body %}
+    <div class="parentContainer">
     <h1>Create new Mobility</h1>
 
+    {% form_theme form 'bootstrap_5_horizontal_layout.html.twig' %}
     {{ include('mobility/_form.html.twig') }}
 
     <a href="{{ path('app_mobility_index') }}">back to list</a>
+    </div>
 {% endblock %}
