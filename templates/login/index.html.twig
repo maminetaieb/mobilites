@@ -23,18 +23,21 @@
 <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 {% endif %}
 
+<div class="pContainer">
 <form action="{{ path('app_login') }}" method="post">
-    <label for="username">Email:</label>
-    <input type="text" id="username" name="_username" value="{{ last_username }}" />
+    <label for="username">Email</label>
+    <input type="text" id="username" name="_username" value="{{ last_username }}" /><br>
 
-    <label for="password">Password:</label>
+    <label for="password">Password</label>
     <input type="password" id="password" name="_password" />
 
     <input type="hidden" name="_target_path" value="/institution" />
+    <br>
 
-    <button type="submit">login</button>
+    <button class="button-85" role="button" type="submit">login</button>
 </form>
-<p> Continue with google <a href="{{ path('connect_google') }}">Connect</a></p>
-<p> Don't have an account yet? <a href="{{ path('app_register') }}">Register</a></p>
-<p>Forgot your password?<a href="{{ path('app_forgot_password_request') }}">Reset Password</a></p>
+<p> Continue with google <a class="button-63" role="button" href="{{ path('connect_google') }}">Connect</a></p>
+<p> Don't have an account yet? <a class="button-63" role="button" href="{{ path('app_register') }}">Register</a></p>
+<p>Forgot your password?<a class="button-63" role="button" href="{{ path('app_forgot_password_request') }}">Reset Password</a></p>
+</div>
 {% endblock %}

@@ -131,10 +131,37 @@ table th {
     width: 50%;
 }
 
+.pContainer {
+    border: 5px solid lightgray;
+    border-radius: 3%;
+    display: inline-block;
+    text-align: center;
+    padding: 30px;
+    margin: 8%;
+    margin-left: 17%;
+    width: 50%;
+}
+
 label#register {
     display: inline-block;
     width: 144px;
     margin-right: 20px;
+}
+
+input {
+    width: 200px;
+    box-sizing: border-box;
+    padding: 6px;
+    background: none;
+    border: 2px solid #eee;
+    margin-left: 10px;
+    margin-bottom: 45px;
+    color: white;
+}
+
+input:focus {
+    border-bottom: solid;
+    border-color: #c4be77;
 }
 
 .btn {
@@ -151,4 +178,108 @@ label#register {
 
 .btn:hover {
     color: #7abaa3;
+}
+
+.button-63 {
+    align-items: center;
+    background-image: linear-gradient(144deg, #AF40FF, #5B42F3 50%, #00DDEB);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    font-size: 14px;
+    justify-content: center;
+    line-height: 1em;
+    max-width: 100%;
+    min-width: 140px;
+    padding: 8px 8px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.button-63:active,
+.button-63:hover {
+    outline: 0;
+}
+
+@media (min-width: 768px) {
+    .button-63 {
+        font-size: 16px;
+        min-width: 196px;
+    }
+}
+
+/* CSS */
+.button-85 {
+    padding: 0.7em 2em;
+    padding-left: 10%;
+    padding-right: 10%;
+    border: none;
+    outline: none;
+    color: rgb(255, 255, 255);
+    background: #111;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    border-radius: 10px;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.button-85:before {
+    content: "";
+    background: linear-gradient(45deg,
+            #ff0000,
+            #ff7300,
+            #fffb00,
+            #48ff00,
+            #00ffd5,
+            #002bff,
+            #7a00ff,
+            #ff00c8,
+            #ff0000);
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    -webkit-filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing-button-85 20s linear infinite;
+    transition: opacity 0.3s ease-in-out;
+    border-radius: 10px;
+}
+
+@keyframes glowing-button-85 {
+    0% {
+        background-position: 0 0;
+    }
+
+    50% {
+        background-position: 400% 0;
+    }
+
+    100% {
+        background-position: 0 0;
+    }
+}
+
+.button-85:after {
+    z-index: -1;
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #222;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
 }
